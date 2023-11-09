@@ -33,13 +33,13 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: Sizes.size40,
           ),
           child: Column(
             children: [
               Gaps.v80,
-              Text(
+              const Text(
                 "Sign up for TikTok",
                 style: TextStyle(
                   fontSize: Sizes.size24,
@@ -47,7 +47,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               Gaps.v20,
-              Text(
+              const Text(
                 "Create a profile, follow other accounts, make your own videos, and more.",
                 style: TextStyle(
                   fontSize: Sizes.size16,
@@ -58,13 +58,13 @@ class SignUpScreen extends StatelessWidget {
               Gaps.v40,
               AuthButton(
                 onTap: () => _onEmailTap(context),
-                icon: FaIcon(FontAwesomeIcons.user),
+                icon: const FaIcon(FontAwesomeIcons.user),
                 text: "Use email & password",
               ),
               Gaps.v16,
               AuthButton(
                 onTap: () => _onAppleTap(context),
-                icon: FaIcon(FontAwesomeIcons.apple),
+                icon: const FaIcon(FontAwesomeIcons.apple),
                 text: "Continue with Apple",
               ),
             ],
