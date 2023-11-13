@@ -33,12 +33,11 @@ class _UserNameScreenState extends State<UserNameScreen> {
     _usernameController.dispose();
     super.dispose();
   }
-  
+
   void _onNextTap() {
-    if(_username.isEmpty) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const EmailScreen())
-    );
+    if (_username.isEmpty) return;
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const EmailScreen()));
   }
 
   @override
@@ -93,7 +92,10 @@ class _UserNameScreenState extends State<UserNameScreen> {
             Gaps.v16,
             GestureDetector(
               onTap: _onNextTap,
-              child: FormButton(disabled: _username.isEmpty),
+              child: FormButton(
+                label: "Next",
+                disabled: _username.isEmpty,
+              ),
             ),
           ],
         ),
