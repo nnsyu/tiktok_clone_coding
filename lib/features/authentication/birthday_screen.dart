@@ -23,9 +23,9 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   @override
   void initState() {
     super.initState();
-    _setTextFieldDate(initialDate);
     _maximumDate =
         DateTime(initialDate.year - 12, initialDate.month, initialDate.day);
+    _setTextFieldDate(_maximumDate);
   }
 
   @override

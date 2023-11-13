@@ -25,79 +25,86 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     }
   }
 
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Log in"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.size36,
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Log in"),
         ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Gaps.v28,
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.size36,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Gaps.v28,
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
                     ),
                   ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
+                  cursorColor: Theme.of(context).primaryColor,
+                  validator: (value) {
+                    return value == null || value.isEmpty ? "please check your email" : null;
+                  },
+                  onSaved: (newValue) {
+                    if(newValue != null) {
+                      formData['email'] = newValue;
+                    }
+                  },
+                ),
+                Gaps.v16,
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
                     ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                  ),
+                  cursorColor: Theme.of(context).primaryColor,
+                  validator: (value) {
+                    return value == null || value.isEmpty ? "please check your password" : null;
+                  },
+                  onSaved: (newValue) {
+                    if(newValue != null) {
+                      formData['password'] = newValue;
+                    }
+                  },
+                ),
+                Gaps.v28,
+                GestureDetector(
+                  onTap: _onSubmmitTap,
+                  child: const FormButton(
+                    label: "Log in",
+                    disabled: false,
                   ),
                 ),
-                cursorColor: Theme.of(context).primaryColor,
-                validator: (value) {
-                  return value == null || value.isEmpty ? "please check your email" : null;
-                },
-                onSaved: (newValue) {
-                  if(newValue != null) {
-                    formData['email'] = newValue;
-                  }
-                },
-              ),
-              Gaps.v16,
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                    ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                    ),
-                  ),
-                ),
-                cursorColor: Theme.of(context).primaryColor,
-                validator: (value) {
-                  return value == null || value.isEmpty ? "please check your password" : null;
-                },
-                onSaved: (newValue) {
-                  if(newValue != null) {
-                    formData['password'] = newValue;
-                  }
-                },
-              ),
-              Gaps.v28,
-              GestureDetector(
-                onTap: _onSubmmitTap,
-                child: const FormButton(
-                  label: "Log in",
-                  disabled: false,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
