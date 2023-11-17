@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 
 const interests = [
@@ -57,7 +58,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
   bool _showTitle = false;
 
   void _onScroll() {
-    if(_scrollController.offset > 100) {
+    if (_scrollController.offset > 100) {
       if (_showTitle) {
         return;
       }
@@ -69,6 +70,15 @@ class _InterestsScreenState extends State<InterestsScreen> {
         _showTitle = false;
       });
     }
+  }
+
+  void _onNextTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TutorialScreen(),
+      ),
+    );
   }
 
   @override
@@ -149,20 +159,23 @@ class _InterestsScreenState extends State<InterestsScreen> {
             left: Sizes.size24,
             right: Sizes.size24,
           ),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              vertical: Sizes.size20,
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: Text(
-              "Next",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: Sizes.size16,
+          child: GestureDetector(
+            onTap: _onNextTap,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: Sizes.size20,
               ),
-              textAlign: TextAlign.center,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Text(
+                "Next",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: Sizes.size16,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
