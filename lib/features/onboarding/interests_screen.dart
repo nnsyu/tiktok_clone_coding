@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -159,26 +160,38 @@ class _InterestsScreenState extends State<InterestsScreen> {
             left: Sizes.size24,
             right: Sizes.size24,
           ),
-          child: GestureDetector(
-            onTap: _onNextTap,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                vertical: Sizes.size20,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Text(
-                "Next",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Sizes.size16,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+          child: CupertinoButton(
+            onPressed: _onNextTap,
+            child: Text('Next'),
+            color: Theme.of(context).primaryColor,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: Sizes.size20,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+      ),
+      child: Text(
+        "Next",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: Sizes.size16,
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }
