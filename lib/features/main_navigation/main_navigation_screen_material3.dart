@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MainNavigationScreen extends StatefulWidget {
-  MainNavigationScreen({super.key});
+class MainNavigationScreenMaterial3 extends StatefulWidget {
+  MainNavigationScreenMaterial3({super.key});
 
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  State<MainNavigationScreenMaterial3> createState() => _MainNavigationScreenMaterial3State();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class _MainNavigationScreenMaterial3State extends State<MainNavigationScreenMaterial3> {
   int _selectedIndex = 0;
 
   final screens = [
@@ -45,7 +44,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onTap,
         destinations: [
-          NavigationDestination(
+          NavigationDestination( 
             icon: FaIcon(
               FontAwesomeIcons.house,
               color: Colors.amber,
