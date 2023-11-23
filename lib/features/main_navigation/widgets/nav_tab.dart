@@ -10,11 +10,13 @@ class NavTab extends StatelessWidget {
     required this.isSelected,
     required this.icon,
     required this.onTap,
+    required this.selectedIcon,
   });
 
   final String text;
   final bool isSelected;
   final IconData icon;
+  final IconData selectedIcon;
   final VoidCallback onTap;
 
   @override
@@ -24,13 +26,15 @@ class NavTab extends StatelessWidget {
         behavior: HitTestBehavior.translucent,
         onTap: onTap,
         child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 100,),
+          duration: const Duration(
+            milliseconds: 100,
+          ),
           opacity: isSelected ? 1 : 0.6,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               FaIcon(
-                icon,
+                isSelected ? selectedIcon : icon,
                 color: Colors.white,
               ),
               Gaps.v5,
