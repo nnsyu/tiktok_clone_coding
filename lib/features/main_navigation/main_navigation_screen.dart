@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/main_navigation/stf_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/post_video_button.dart';
+import 'package:tiktok_clone/features/videos/video_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   MainNavigationScreen({super.key});
@@ -16,6 +16,7 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
+  bool _isTapDown = false;
 
   void _onTap(int index) {
     setState(() {
@@ -24,19 +25,32 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _onPostVideoButtonTap() {
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => Scaffold(
-    //       appBar: AppBar(
-    //         title: Text('Record video'),
-    //       ),
-    //     ),
-    //     fullscreenDialog: true,
-    //   ),
-    // );
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: Text('Record video'),
+          ),
+        ),
+        fullscreenDialog: true,
+      ),
+    );
 
     setState(() {
-      _selectedIndex = 2;
+      _selectedIndex = 0;
+      _isTapDown = false;
+    });
+  }
+
+  void _onPostVideoButtonTapDown(TapDownDetails details) {
+    setState(() {
+      _isTapDown = true;
+    });
+  }
+
+  void _onPostVideoButtonTapCancel() {
+    setState(() {
+      _isTapDown = false;
     });
   }
 
@@ -47,19 +61,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         children: [
           Offstage(
             offstage: _selectedIndex != 0,
-            child: StfScreen(),
+            child: VideoTimelineScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: StfScreen(),
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: StfScreen(),
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: StfScreen(),
+            child: Container(),
           ),
         ],
       ),
@@ -89,9 +103,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               ),
               Gaps.h24,
               GestureDetector(
+                onTapCancel: _onPostVideoButtonTapCancel,
                 onTap: _onPostVideoButtonTap,
+                onTapDown: _onPostVideoButtonTapDown,
+                // onTapUp: _onPostVideoButtonTapUp,
                 child: PostVideoButton(
-                  isSelected: _selectedIndex == 2,
+                  isSelected: _isTapDown,
                 ),
               ),
               Gaps.h24,
