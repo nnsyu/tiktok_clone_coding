@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -114,6 +115,21 @@ class _VideoPostState extends State<VideoPost>
     setState(() {});
   }
 
+  void _onCommentsTap(BuildContext context) async {
+    if(_videoPlayerController.value.isPlaying) {
+      _onTogglePause();
+    }
+
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => VideoComments(),
+    );
+
+    _onTogglePause();
+  }
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -148,9 +164,10 @@ class _VideoPostState extends State<VideoPost>
                     opacity: _isPaused ? 1 : 0,
                     duration: _animationDuration,
                     child: FaIcon(
-                      _videoPlayerController.value.isPlaying
-                          ? FontAwesomeIcons.pause
-                          : FontAwesomeIcons.play,
+                      FontAwesomeIcons.play,
+                      // _videoPlayerController.value.isPlaying
+                      //     ? FontAwesomeIcons.pause
+                      //     : FontAwesomeIcons.play,
                       color: Colors.white,
                       size: Sizes.size52,
                     ),
@@ -248,17 +265,30 @@ class _VideoPostState extends State<VideoPost>
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                   foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage('https://avatars.githubusercontent.com/u/34337539?v=4'),
+                  foregroundImage: NetworkImage(
+                      'https://avatars.githubusercontent.com/u/34337539?v=4'),
                   child: Text('에우'),
                 ),
                 Gaps.v24,
-                VideoButton(icon: FontAwesomeIcons.solidHeart, text: '2.9M',),
+                VideoButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: '2.9M',
+                ),
                 Gaps.v24,
-                VideoButton(icon: FontAwesomeIcons.solidComment, text: '3.3K',),
+                GestureDetector(
+                  onTap: () => _onCommentsTap(context),
+                  child: VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: '3.3K',
+                  ),
+                ),
                 Gaps.v24,
-                VideoButton(icon: FontAwesomeIcons.share, text: 'Share',),
+                VideoButton(
+                  icon: FontAwesomeIcons.share,
+                  text: 'Share',
+                ),
               ],
             ),
           ),
