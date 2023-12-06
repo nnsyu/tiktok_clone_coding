@@ -81,15 +81,26 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+    if (info.visibleFraction == 1 &&
+        !_videoPlayerController.value.isPlaying &&
+        !_isPaused) {
       _videoPlayerController.play();
-    } else if (info.visibleFraction != 1 &&
+    }
+
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+      _onTogglePause();
+    }
+
+    /*else if (info.visibleFraction != 1 &&
         _videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
-    }
+    }*/
+    print(info.visibleFraction);
   }
 
   void _onTogglePause() {
+    if (!mounted) return;
+
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse();
@@ -116,7 +127,7 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onCommentsTap(BuildContext context) async {
-    if(_videoPlayerController.value.isPlaying) {
+    if (_videoPlayerController.value.isPlaying) {
       _onTogglePause();
     }
 
@@ -139,7 +150,16 @@ class _VideoPostState extends State<VideoPost>
         children: [
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
-                ? VideoPlayer(_videoPlayerController)
+                ? SizedBox.expand(
+                  child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _videoPlayerController.value.size.width ?? 0,
+                        height: _videoPlayerController.value.size.height ?? 0,
+                        child: VideoPlayer(_videoPlayerController),
+                      ),
+                    ),
+                )
                 : Container(
                     color: Colors.black,
                   ),
