@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
@@ -24,6 +25,8 @@ class TikTokApp extends StatelessWidget {
           selectionColor: const Color(0x458D8D8D),
           cursorColor: const Color(0xFFE9435A),
         ),
+        splashColor: Colors.grey.shade100,
+        highlightColor: Colors.grey.shade100,
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
@@ -35,7 +38,8 @@ class TikTokApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MainNavigationScreen(),
+      //home: MainNavigationScreen(),
+      home: ActivityScreen(),
     );
   }
 }
