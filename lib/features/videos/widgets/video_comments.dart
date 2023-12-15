@@ -87,87 +87,81 @@ class _VideoCommentsState extends State<VideoComments> {
                 child: BottomAppBar(
                   height: size.height * 0.08,
                   color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Sizes.size16,
-                      vertical: Sizes.size12,
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 18,
-                          child: Text(
-                            '에우',
-                          ),
-                          backgroundColor: Colors.grey.shade500,
-                          foregroundColor: Colors.white,
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 18,
+                        foregroundImage: NetworkImage(
+                          'https://avatars.githubusercontent.com/u/34337539?v=4',
                         ),
-                        Gaps.h10,
-                        Expanded(
-                          child: TextField(
-                            onTap: _onStartWriting,
-                            expands: true,
-                            minLines: null,
-                            maxLines: null,
-                            textInputAction: TextInputAction.newline,
-                            cursorColor: Theme.of(context).primaryColor,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                  Sizes.size12,
-                                ),
-                                borderSide: BorderSide.none,
+                        backgroundColor: Colors.grey.shade500,
+                        foregroundColor: Colors.white,
+                      ),
+                      Gaps.h10,
+                      Expanded(
+                        child: TextField(
+                          onTap: _onStartWriting,
+                          expands: true,
+                          minLines: null,
+                          maxLines: null,
+                          textInputAction: TextInputAction.newline,
+                          cursorColor: Theme.of(context).primaryColor,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                Sizes.size12,
                               ),
-                              hintText: "Write a comment...",
-                              filled: true,
-                              fillColor: Colors.grey.shade200,
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: Sizes.size12,
-                                vertical: Sizes.size10,
+                              borderSide: BorderSide.none,
+                            ),
+                            hintText: "Write a comment...",
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: Sizes.size12,
+                              vertical: Sizes.size10,
+                            ),
+                            suffixIcon: Padding(
+                              padding: EdgeInsets.only(
+                                right: Sizes.size14,
                               ),
-                              suffixIcon: Padding(
-                                padding: EdgeInsets.only(
-                                  right: Sizes.size14,
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.at,
-                                      color: Colors.grey.shade900,
-                                      size: Sizes.size20,
-                                    ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.at,
+                                    color: Colors.grey.shade900,
+                                    size: Sizes.size20,
+                                  ),
+                                  Gaps.h14,
+                                  FaIcon(
+                                    FontAwesomeIcons.gift,
+                                    color: Colors.grey.shade900,
+                                    size: Sizes.size20,
+                                  ),
+                                  Gaps.h14,
+                                  FaIcon(
+                                    FontAwesomeIcons.faceSmile,
+                                    color: Colors.grey.shade900,
+                                    size: Sizes.size20,
+                                  ),
+                                  if(_isWriting)
                                     Gaps.h14,
-                                    FaIcon(
-                                      FontAwesomeIcons.gift,
-                                      color: Colors.grey.shade900,
-                                      size: Sizes.size20,
-                                    ),
-                                    Gaps.h14,
-                                    FaIcon(
-                                      FontAwesomeIcons.faceSmile,
-                                      color: Colors.grey.shade900,
-                                      size: Sizes.size20,
-                                    ),
-                                    if(_isWriting)
-                                      Gaps.h14,
-                                    if(_isWriting)
-                                      GestureDetector(
-                                        onTap: _stopWriting,
-                                        child: FaIcon(
-                                          FontAwesomeIcons.circleArrowUp,
-                                          color: Theme.of(context).primaryColor,
-                                          size: Sizes.size20,
-                                        ),
+                                  if(_isWriting)
+                                    GestureDetector(
+                                      onTap: _stopWriting,
+                                      child: FaIcon(
+                                        FontAwesomeIcons.circleArrowUp,
+                                        color: Theme.of(context).primaryColor,
+                                        size: Sizes.size20,
                                       ),
-                                  ],
-                                ),
+                                    ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

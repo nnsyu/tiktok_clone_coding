@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
@@ -27,7 +28,11 @@ class TikTokApp extends StatelessWidget {
         ),
         splashColor: Colors.grey.shade100,
         highlightColor: Colors.grey.shade100,
-        appBarTheme: const AppBarTheme(
+        bottomAppBarTheme: BottomAppBarTheme(
+          surfaceTintColor: Color(0x37F1F1F1),
+        ),
+        appBarTheme: AppBarTheme(
+          surfaceTintColor: Colors.white,
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           elevation: 0,
