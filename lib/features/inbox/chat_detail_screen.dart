@@ -72,64 +72,157 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
         ),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          Container(
-            color: Color(0x37F1F1F1),
-            child: ListView.separated(
-                padding: EdgeInsets.symmetric(
-                  vertical: Sizes.size20,
-                  horizontal: Sizes.size14,
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    bottom: 50,
+                  ),
+                  color: Color(0x37F1F1F1),
+                  child: ListView.separated(
+                      padding: EdgeInsets.symmetric(
+                        vertical: Sizes.size20,
+                        horizontal: Sizes.size14,
+                      ),
+                      itemBuilder: (context, index) {
+                        final isMine = index % 2 == 0;
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: isMine
+                              ? MainAxisAlignment.end
+                              : MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(
+                                Sizes.size14,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: isMine
+                                      ? Colors.blue
+                                      : Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(
+                                      Sizes.size20,
+                                    ),
+                                    topRight: Radius.circular(
+                                      Sizes.size20,
+                                    ),
+                                    bottomLeft: Radius.circular(
+                                      isMine ? Sizes.size20 : Sizes.size3,
+                                    ),
+                                    bottomRight: Radius.circular(
+                                      isMine ? Sizes.size3 : Sizes.size20,
+                                    ),
+                                  )),
+                              child: Text(
+                                "this is a message!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Sizes.size16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (context, index) => Gaps.v10,
+                      itemCount: 20),
                 ),
-                itemBuilder: (context, index) {
-                  final isMine = index % 2 == 0;
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: isMine
-                        ? MainAxisAlignment.end
-                        : MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(
-                          Sizes.size14,
-                        ),
-                        decoration: BoxDecoration(
-                            color: isMine
-                                ? Colors.blue
-                                : Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(
-                                Sizes.size20,
-                              ),
-                              topRight: Radius.circular(
-                                Sizes.size20,
-                              ),
-                              bottomLeft: Radius.circular(
-                                isMine ? Sizes.size20 : Sizes.size3,
-                              ),
-                              bottomRight: Radius.circular(
-                                isMine ? Sizes.size3 : Sizes.size20,
-                              ),
-                            )),
-                        child: Text(
-                          "this is a message!",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: Sizes.size16,
+                Positioned(
+                  bottom: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                      Sizes.size10,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.0,
+                            ),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: Row(
+                            children: [
+                              Text('\u{1f496}'),
+                              Gaps.h3,
+                              Text('\u{1f496}'),
+                              Gaps.h3,
+                              Text('\u{1f496}'),
+                            ],
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Sizes.size10,
+                            vertical: Sizes.size5,
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-                separatorBuilder: (context, index) => Gaps.v10,
-                itemCount: 10),
+                        Gaps.h10,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.0,
+                            ),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: Row(
+                            children: [
+                              Text('\u{1F44D}'),
+                              Gaps.h3,
+                              Text('\u{1F44D}'),
+                              Gaps.h3,
+                              Text('\u{1F44D}'),
+                            ],
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Sizes.size10,
+                            vertical: Sizes.size5,
+                          ),
+                        ),
+                        Gaps.h10,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.0,
+                            ),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: Row(
+                            children: [
+                              Text('\u{1F605}'),
+                              Gaps.h3,
+                              Text('\u{1F605}'),
+                              Gaps.h3,
+                              Text('\u{1F605}'),
+                            ],
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Sizes.size10,
+                            vertical: Sizes.size5,
+                          ),
+                        ),
+                        Gaps.h10,
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Positioned(
-            bottom: 0,
-            width: size.width,
-            child: BottomAppBar(
-              height: size.height * 0.08,
+          BottomAppBar(
+            padding: EdgeInsets.only(
+              bottom: Sizes.size20,
+            ),
+            color: Color(0x37F1F1F1),
+            elevation: 0,
+            height: size.height * 0.07,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size10,
+              ),
               child: Row(
                 children: [
                   Expanded(
@@ -180,84 +273,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       size: Sizes.size16,
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: size.height * 0.08,
-            child: Padding(
-              padding: const EdgeInsets.all(
-                Sizes.size10,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        50.0,
-                      ),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: Row(
-                      children: [
-                        Text('\u{1f496}'),
-                        Gaps.h3,
-                        Text('\u{1f496}'),
-                        Gaps.h3,
-                        Text('\u{1f496}'),
-                      ],
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Sizes.size10,
-                      vertical: Sizes.size5,
-                    ),
-                  ),
-                  Gaps.h10,
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        50.0,
-                      ),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: Row(
-                      children: [
-                        Text('\u{1F44D}'),
-                        Gaps.h3,
-                        Text('\u{1F44D}'),
-                        Gaps.h3,
-                        Text('\u{1F44D}'),
-                      ],
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Sizes.size10,
-                      vertical: Sizes.size5,
-                    ),
-                  ),
-                  Gaps.h10,
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        50.0,
-                      ),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: Row(
-                      children: [
-                        Text('\u{1F605}'),
-                        Gaps.h3,
-                        Text('\u{1F605}'),
-                        Gaps.h3,
-                        Text('\u{1F605}'),
-                      ],
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Sizes.size10,
-                      vertical: Sizes.size5,
-                    ),
-                  ),
-                  Gaps.h10,
                 ],
               ),
             ),
