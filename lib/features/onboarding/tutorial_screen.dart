@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/tutorial_page.dart';
 
 import '../../constants/sizes.dart';
 
@@ -66,11 +67,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
           child: SafeArea(
             child: AnimatedCrossFade(
               firstChild: const TutorialPage(
+                isCurrent: false,
                 title: "Watch cool videos!",
                 content:
                     "Videos are personalized for you based on what you watch, like, and share.",
               ),
               secondChild: const TutorialPage(
+                isCurrent: false,
                 title: "Follow the rules!",
                 content: "Take care of one another! Please!",
               ),
@@ -107,37 +110,4 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 }
 
-class TutorialPage extends StatelessWidget {
-  final String title;
-  final String content;
 
-  const TutorialPage({
-    super.key,
-    required this.title,
-    required this.content,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Gaps.v80,
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: Sizes.size40,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Gaps.v16,
-        Text(
-          content,
-          style: TextStyle(
-            fontSize: Sizes.size20,
-          ),
-        ),
-      ],
-    );
-  }
-}

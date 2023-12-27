@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +33,7 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isPaused = false;
   bool _isSeeMore = false;
+  bool _isMute = false;
 
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
@@ -54,6 +56,12 @@ class _VideoPostState extends State<VideoPost>
         VideoPlayerController.asset("assets/videos/oong.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+
+    if (kIsWeb) {
+      _onMute();
+      //await _videoPlayerController.setVolume(0);
+    }
+
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -81,7 +89,7 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    if(!mounted) return;
+    if (!mounted) return;
 
     if (info.visibleFraction == 1 &&
         !_videoPlayerController.value.isPlaying &&
@@ -143,6 +151,15 @@ class _VideoPostState extends State<VideoPost>
     _onTogglePause();
   }
 
+  void _onMute() async {
+    _isMute = !_isMute;
+    _isMute
+        ? await _videoPlayerController.setVolume(0)
+        : await _videoPlayerController.setVolume(50);
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -153,7 +170,7 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? SizedBox.expand(
-                  child: FittedBox(
+                    child: FittedBox(
                       fit: BoxFit.cover,
                       child: SizedBox(
                         width: _videoPlayerController.value.size.width ?? 0,
@@ -161,7 +178,7 @@ class _VideoPostState extends State<VideoPost>
                         child: VideoPlayer(_videoPlayerController),
                       ),
                     ),
-                )
+                  )
                 : Container(
                     color: Colors.black,
                   ),
@@ -312,6 +329,18 @@ class _VideoPostState extends State<VideoPost>
                   text: 'Share',
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            top: 20,
+            right: 10,
+            child: GestureDetector(
+              onTap: _onMute,
+              child: FaIcon(
+                _isMute ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
+                color: Colors.white,
+                size: Sizes.size32,
+              ),
             ),
           ),
         ],

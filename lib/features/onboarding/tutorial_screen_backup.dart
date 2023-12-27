@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/tutorial_page.dart';
 
 import '../../constants/sizes.dart';
+import '../main_navigation/main_navigation_screen.dart';
 
 class TutorialScreenBackup extends StatefulWidget {
   const TutorialScreenBackup({super.key});
@@ -11,107 +15,104 @@ class TutorialScreenBackup extends StatefulWidget {
 }
 
 class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
+
+  int _selectedIndex = 0;
+
+  void _onTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onNextTab() {
+    if(_selectedIndex == 2) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => MainNavigationScreen(),
+        ),
+            (route) => false,
+      );
+    } else {
+      setState(() {
+        _selectedIndex++;
+      });
+    }
+    //setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
+    return PopScope(
+      canPop: true,
+      onPopInvoked : (didPop){
+        if(_selectedIndex != 0) {
+          setState(() {
+            _selectedIndex--;
+          });
+        }
+      },
       child: Scaffold(
         body: SafeArea(
-          child: TabBarView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size24,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage:
+                  NetworkImage('https://avatars.githubusercontent.com/u/34337539?v=4'),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Gaps.v10,
+                Stack(
                   children: [
-                    Gaps.v52,
-                    Text(
-                      "Watch cool videos!",
-                      style: TextStyle(
-                        fontSize: Sizes.size40,
-                        fontWeight: FontWeight.bold,
+                    Offstage(
+                      offstage: _selectedIndex != 0,
+                      child: TutorialPage(
+                        isCurrent: _selectedIndex == 0,
+                        title: "Watch cool videos!",
+                        content:
+                        "Videos are personalized for you based on what you watch, like, and share.",
                       ),
                     ),
-                    Gaps.v16,
-                    Text(
-                      "Videos are personalized for you based on what you watch, like, and share.",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
+                    Offstage(
+                      offstage: _selectedIndex != 1,
+                      child: TutorialPage(
+                        isCurrent: _selectedIndex == 1,
+                        title: "Follow the rules!",
+                        content: "Take care of one another! Please!",
+                      ),
+                    ),
+                    Offstage(
+                      offstage: _selectedIndex != 2,
+                      child: TutorialPage(
+                        isCurrent: _selectedIndex == 2,
+                        title: "Enjoy your ride!",
+                        content: "Videos are personalized for you based on what you watch, like, and share.",
                       ),
                     ),
                   ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Gaps.v52,
-                    Text(
-                      "Follow the rules!",
-                      style: TextStyle(
-                        fontSize: Sizes.size40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Gaps.v16,
-                    Text(
-                      "Videos are personalized for you based on what you watch, like, and share.",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Gaps.v52,
-                    Text(
-                      "Enjoy your ride!",
-                      style: TextStyle(
-                        fontSize: Sizes.size40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Gaps.v16,
-                    Text(
-                      "Videos are personalized for you based on what you watch, like, and share.",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: Sizes.size48,),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TabPageSelector(
-                  color: Colors.white,
-                  selectedColor: Theme.of(context).primaryColor,
-                  borderStyle: BorderStyle.solid,
-                  indicatorSize: Sizes.size10,
-                ),
-              ],
-            ),
+          child: CupertinoButton(
+            onPressed: _onNextTab,
+            color: Theme.of(context).primaryColor,
+            child: Text(_selectedIndex == 2 ? 'Enter the app!' : 'Next'),
           ),
         ),
       ),

@@ -5,15 +5,17 @@ import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen_backup.dart';
 
 import 'constants/sizes.dart';
 import 'features/authentication/sign_up_screen.dart';
+import 'features/onboarding/tutorial_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // ]);
 
   // SystemChrome.setSystemUIOverlayStyle(
   //   SystemUiOverlayStyle.dark,
@@ -55,7 +57,7 @@ class TikTokApp extends StatelessWidget {
         ),
       ),
       //home: MainNavigationScreen(),
-      home: SignUpScreen(),
+      home: TutorialScreenBackup(),
     );
   }
 }
