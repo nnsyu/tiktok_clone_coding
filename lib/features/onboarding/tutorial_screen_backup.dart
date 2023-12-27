@@ -53,7 +53,7 @@ class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
+      canPop: _selectedIndex == 0 ? true : false,
       onPopInvoked : (didPop){
         if(_selectedIndex != 0) {
           setState(() {
