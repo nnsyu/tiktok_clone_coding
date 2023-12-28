@@ -5,6 +5,7 @@ import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
+import '../../utils.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -32,13 +33,13 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
-    if(orientation == Orientation.landscape) {
-      return const Scaffold(
-          body: Center(
-            child: Text("Please rotate screen"),
-          ),
-        );
-    }
+    // if(orientation == Orientation.landscape) {
+    //   return const Scaffold(
+    //       body: Center(
+    //         child: Text("Please rotate screen"),
+    //       ),
+    //     );
+    // }
 
     return Scaffold(
       body: SafeArea(
@@ -57,13 +58,15 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               Gaps.v20,
-              const Text(
-                "Create a profile, follow other accounts, make your own videos, and more.",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  color: Colors.black45,
+              Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Create a profile, follow other accounts, make your own videos, and more.",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               Gaps.v40,
               if (orientation == Orientation.portrait) ...[
@@ -103,9 +106,8 @@ class SignUpScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
-        elevation: 2,
+      bottomNavigationBar: Container (
+        color: isDarkMode(context) ? Theme.of(context).appBarTheme.backgroundColor : Colors.grey.shade50,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: Sizes.size32,
@@ -113,7 +115,12 @@ class SignUpScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Already have an account?"),
+              const Text(
+                "Already have an account?",
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                ),
+              ),
               Gaps.h5,
               GestureDetector(
                 onTap: () => _onLoginTap(context),

@@ -32,22 +32,19 @@ class TikTokApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
+      themeMode: ThemeMode.system,
       theme: ThemeData(
+        brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
         textSelectionTheme: TextSelectionThemeData(
-          selectionColor: const Color(0x458D8D8D),
           cursorColor: const Color(0xFFE9435A),
         ),
-        splashColor: Colors.grey.shade100,
-        highlightColor: Colors.grey.shade100,
-        bottomAppBarTheme: BottomAppBarTheme(
-          surfaceTintColor: Color(0x37F1F1F1),
-        ),
+        splashColor: Colors.transparent,
         appBarTheme: AppBarTheme(
-          surfaceTintColor: Colors.white,
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           elevation: 0,
           titleTextStyle: TextStyle(
             color: Colors.black,
@@ -55,9 +52,57 @@ class TikTokApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade50,
+          surfaceTintColor: Colors.white,
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: const Color(0xFFE9435A),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
+          surfaceTintColor: Colors.grey.shade900,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade900,
+        )
       ),
       //home: MainNavigationScreen(),
-      home: TutorialScreenBackup(),
+      home: SignUpScreen(),
     );
   }
 }
+
+// class LayoutBuilderCodeLab extends StatelessWidget {
+//   const LayoutBuilderCodeLab({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final size = MediaQuery.of(context).size;
+//     return Scaffold(
+//       body: SizedBox(
+//         width: size.width / 2,
+//         child: LayoutBuilder(
+//           builder: (context, constraints) {
+//             return Container(
+//               width: constraints.maxWidth,
+//               height: constraints.maxHeight,
+//               color: Colors.teal,
+//               child: Center(
+//                 child: Text(
+//                   "${size.width} / ${constraints.maxWidth}",
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 98,
+//                   ),
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }

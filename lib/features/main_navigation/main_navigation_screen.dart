@@ -18,7 +18,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 3;
   bool _isTapDown = false;
 
   void _onTap(int index) {
@@ -84,7 +84,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         padding: EdgeInsets.only(
-          top: Sizes.size10,
+          top: Sizes.size20,
         ),
         color: _selectedIndex == 0 ? Colors.black : Colors.white,
         child: Row(

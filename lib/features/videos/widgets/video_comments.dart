@@ -68,6 +68,7 @@ class _VideoCommentsState extends State<VideoComments> {
               Scrollbar(
                 controller: _scrollController,
                 child: ListView.separated(
+                  controller: _scrollController,
                   padding: EdgeInsets.only(
                     top: Sizes.size10,
                     left: Sizes.size16,

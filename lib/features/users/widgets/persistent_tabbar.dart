@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../constants/breakpoints.dart';
 import '../../../constants/sizes.dart';
 
 class PersistentTabbar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -18,30 +18,34 @@ class PersistentTabbar extends SliverPersistentHeaderDelegate {
           ),
         ),
       ),
-      child: TabBar(
-        splashFactory: NoSplash.splashFactory,
-        indicatorColor: Colors.black,
-        labelColor: Colors.black,
-        indicatorSize: TabBarIndicatorSize.label,
-        labelPadding: EdgeInsets.symmetric(
-          vertical: Sizes.size10,
+      child: LayoutBuilder(
+        builder: (context, constraints) => TabBar(
+          tabAlignment: constraints.maxWidth > Breakpoints.sm ? TabAlignment.center : TabAlignment.fill,
+          isScrollable: constraints.maxWidth > Breakpoints.sm ? true : false,
+          splashFactory: NoSplash.splashFactory,
+          indicatorColor: Colors.black,
+          labelColor: Colors.black,
+          indicatorSize: TabBarIndicatorSize.label,
+          labelPadding: EdgeInsets.symmetric(
+            vertical: Sizes.size10,
+          ),
+          tabs: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: constraints.maxWidth > Breakpoints.sm ? Sizes.size96 : Sizes.size20,
+              ),
+              child: FaIcon(Icons.grid_4x4_rounded),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: constraints.maxWidth > Breakpoints.sm ? Sizes.size96 : Sizes.size20,
+              ),
+              child: FaIcon(
+                FontAwesomeIcons.heart,
+              ),
+            ),
+          ],
         ),
-        tabs: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size20,
-            ),
-            child: FaIcon(Icons.grid_4x4_rounded),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size20,
-            ),
-            child: FaIcon(
-              FontAwesomeIcons.heart,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -56,5 +60,4 @@ class PersistentTabbar extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return false;
   }
-
 }

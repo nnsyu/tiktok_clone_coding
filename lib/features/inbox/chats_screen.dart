@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
 
@@ -36,9 +37,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
           opacity: animation,
           child: SizeTransition(
             sizeFactor: animation,
-            child: Container(
-              color: Colors.red,
-              child: _makeTile(index),
+            child: Center(
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: Breakpoints.sm,
+                ),
+                color: Colors.red,
+                child: _makeTile(index),
+              ),
             ),
           ),
         ),
@@ -57,37 +63,44 @@ class _ChatsScreenState extends State<ChatsScreen> {
   }
 
   Widget _makeTile(int index) {
-    return ListTile(
-      onLongPress: () => _deleteItem(index),
-      onTap: _onChatTap,
-      leading: CircleAvatar(
-        radius: 30,
-        child: Text("Ewoo"),
-        foregroundImage: NetworkImage(
-          'https://avatars.githubusercontent.com/u/34337539?v=4',
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: Breakpoints.sm,
         ),
-        backgroundColor: Colors.black,
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            "Ratgys ($index)",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
+        child: ListTile(
+          onLongPress: () => _deleteItem(index),
+          onTap: _onChatTap,
+          leading: CircleAvatar(
+            radius: 30,
+            child: Text("Ewoo"),
+            foregroundImage: NetworkImage(
+              'https://avatars.githubusercontent.com/u/34337539?v=4',
             ),
+            backgroundColor: Colors.black,
           ),
-          Text(
-            '2:16 PM',
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: Sizes.size12,
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "Ratgys ($index)",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                '2:16 PM',
+                style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: Sizes.size12,
+                ),
+              ),
+            ],
           ),
-        ],
+          subtitle: Text("Don't forget to make video"),
+        ),
       ),
-      subtitle: Text("Don't forget to make video"),
     );
   }
 

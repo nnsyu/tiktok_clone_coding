@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
@@ -90,7 +91,6 @@ class _ActivityScreenState extends State<ActivityScreen>
 
   @override
   Widget build(BuildContext context) {
-    print(_notification);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -116,113 +116,120 @@ class _ActivityScreenState extends State<ActivityScreen>
       ),
       body: Stack(
         children: [
-          ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size20,
-                ),
-                child: Text(
-                  'New',
-                  style: TextStyle(
-                    fontSize: Sizes.size14,
-                    color: Colors.grey.shade400,
-                  ),
-                ),
+          Center(
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: Breakpoints.sm,
               ),
-              Gaps.v14,
-              for (var notification in _notification)
-                Dismissible(
-                  key: Key(notification),
-                  onDismissed: (direction) => _onDismissed(notification),
-                  background: Container(
-                    alignment: Alignment.centerLeft,
-                    color: Colors.green,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: Sizes.size10,
-                      ),
-                      child: FaIcon(
-                        FontAwesomeIcons.checkDouble,
-                        color: Colors.white,
-                        size: Sizes.size20,
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.size20,
+                    ),
+                    child: Text(
+                      'New',
+                      style: TextStyle(
+                        fontSize: Sizes.size14,
+                        color: Colors.grey.shade400,
                       ),
                     ),
                   ),
-                  secondaryBackground: Container(
-                    alignment: Alignment.centerRight,
-                    color: Colors.red,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        right: Sizes.size10,
-                      ),
-                      child: FaIcon(
-                        FontAwesomeIcons.trashCan,
-                        color: Colors.white,
-                        size: Sizes.size20,
-                      ),
-                    ),
-                  ),
-                  child: ListTile(
-                    minVerticalPadding: Sizes.size16,
-                    leading: Container(
-                      width: Sizes.size52,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.grey.shade200,
-                          width: Sizes.size1,
+                  Gaps.v14,
+                  for (var notification in _notification)
+                    Dismissible(
+                      key: Key(notification),
+                      onDismissed: (direction) => _onDismissed(notification),
+                      background: Container(
+                        alignment: Alignment.centerLeft,
+                        color: Colors.green,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: Sizes.size10,
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.checkDouble,
+                            color: Colors.white,
+                            size: Sizes.size20,
+                          ),
                         ),
                       ),
-                      child: Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.bell,
-                          color: Colors.black,
+                      secondaryBackground: Container(
+                        alignment: Alignment.centerRight,
+                        color: Colors.red,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            right: Sizes.size10,
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.trashCan,
+                            color: Colors.white,
+                            size: Sizes.size20,
+                          ),
                         ),
                       ),
-                    ),
-                    title: Row(
-                      children: [
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              text: "Account updates: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                                fontSize: Sizes.size14,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Upload longer videos ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: Sizes.size14,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " $notification",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.grey.shade500,
-                                    fontSize: Sizes.size14,
-                                  ),
-                                ),
-                              ],
+                      child: ListTile(
+                        minVerticalPadding: Sizes.size16,
+                        leading: Container(
+                          width: Sizes.size52,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.grey.shade200,
+                              width: Sizes.size1,
+                            ),
+                          ),
+                          child: Center(
+                            child: FaIcon(
+                              FontAwesomeIcons.bell,
+                              color: Colors.black,
                             ),
                           ),
                         ),
-                        Gaps.h16,
-                      ],
+                        title: Row(
+                          children: [
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
+                                  text: "Account updates: ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                    fontSize: Sizes.size14,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "Upload longer videos ",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: Sizes.size14,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: " $notification",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey.shade500,
+                                        fontSize: Sizes.size14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Gaps.h16,
+                          ],
+                        ),
+                        trailing: FaIcon(
+                          FontAwesomeIcons.chevronRight,
+                          size: Sizes.size16,
+                        ),
+                      ),
                     ),
-                    trailing: FaIcon(
-                      FontAwesomeIcons.chevronRight,
-                      size: Sizes.size16,
-                    ),
-                  ),
-                ),
-            ],
+                ],
+              ),
+            ),
           ),
           if (_showBarrier)
             AnimatedModalBarrier(
@@ -232,41 +239,47 @@ class _ActivityScreenState extends State<ActivityScreen>
             ),
           SlideTransition(
             position: _panelAnimation,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(
-                    Sizes.size5,
-                  ),
-                  bottomRight: Radius.circular(
-                    Sizes.size5,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: Breakpoints.sm,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(
+                      Sizes.size5,
+                    ),
+                    bottomRight: Radius.circular(
+                      Sizes.size5,
+                    ),
                   ),
                 ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (var tab in _tabs)
-                    ListTile(
-                      title: Row(
-                        children: [
-                          FaIcon(
-                            tab["icon"],
-                            color: Colors.black,
-                            size: Sizes.size16,
-                          ),
-                          Gaps.h20,
-                          Text(
-                            tab["title"],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (var tab in _tabs)
+                      ListTile(
+                        title: Row(
+                          children: [
+                            FaIcon(
+                              tab["icon"],
+                              color: Colors.black,
+                              size: Sizes.size16,
                             ),
-                          ),
-                        ],
+                            Gaps.h20,
+                            Text(
+                              tab["title"],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
