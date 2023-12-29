@@ -5,6 +5,7 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
+import '../../utils.dart';
 import 'widgets/form_button.dart';
 
 class BirthdayScreen extends StatefulWidget {
@@ -72,11 +73,13 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
               ),
             ),
             Gaps.v8,
-            const Text(
-              "Your birthday won't be shown publicly.",
-              style: TextStyle(
-                fontSize: Sizes.size16,
-                color: Colors.black54,
+            Opacity(
+              opacity: 0.7,
+              child: Text(
+                "Your birthday won't be shown publicly.",
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                ),
               ),
             ),
             Gaps.v16,
@@ -108,15 +111,16 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 300,
-          child: CupertinoDatePicker(
-              maximumDate: _maximumDate,
-              initialDateTime: _maximumDate,
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: _setTextFieldDate),
-        ),
+      bottomNavigationBar: Container(
+        color: isDarkMode(context)
+            ? Theme.of(context).appBarTheme.backgroundColor
+            : Colors.grey.shade50,
+        height: 300,
+        child: CupertinoDatePicker(
+            maximumDate: _maximumDate,
+            initialDateTime: _maximumDate,
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: _setTextFieldDate),
       ),
     );
   }

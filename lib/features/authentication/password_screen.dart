@@ -142,7 +142,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 "Your password must have:",
                 style: TextStyle(
                   fontSize: Sizes.size11 + Sizes.size2,
-                  color: Colors.black,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -161,7 +160,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     "8 to 20 characters",
                     style: TextStyle(
                       fontSize: Sizes.size11 + Sizes.size2,
-                      color: Colors.black,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
@@ -182,7 +180,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     "Letters, numbers, and special characters",
                     style: TextStyle(
                       fontSize: Sizes.size11 + Sizes.size2,
-                      color: Colors.black,
                       fontWeight: FontWeight.w300,
                     ),
                   ),

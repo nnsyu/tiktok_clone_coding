@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/inbox/activity_screen.dart';
@@ -35,6 +36,7 @@ class TikTokApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: ThemeData(
         brightness: Brightness.light,
+        textTheme: Typography.blackMountainView,
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
         textSelectionTheme: TextSelectionThemeData(
@@ -42,7 +44,7 @@ class TikTokApp extends StatelessWidget {
         ),
         splashColor: Colors.transparent,
         appBarTheme: AppBarTheme(
-          foregroundColor: Colors.black,
+          // foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           elevation: 0,
@@ -59,6 +61,7 @@ class TikTokApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
+        textTheme: Typography.whiteMountainView,
         scaffoldBackgroundColor: Colors.black,
         primaryColor: const Color(0xFFE9435A),
         bottomAppBarTheme: BottomAppBarTheme(
@@ -67,7 +70,12 @@ class TikTokApp extends StatelessWidget {
         ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.grey.shade900,
-        )
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       //home: MainNavigationScreen(),
       home: SignUpScreen(),

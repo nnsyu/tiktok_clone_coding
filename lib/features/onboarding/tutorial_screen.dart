@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/tutorial_page.dart';
 
 import '../../constants/sizes.dart';
+import '../../utils.dart';
 
 enum Direction { right, left }
 
@@ -67,13 +69,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
           child: SafeArea(
             child: AnimatedCrossFade(
               firstChild: const TutorialPage(
-                isCurrent: false,
+                isCurrent: true,
                 title: "Watch cool videos!",
                 content:
                     "Videos are personalized for you based on what you watch, like, and share.",
               ),
               secondChild: const TutorialPage(
-                isCurrent: false,
+                isCurrent: true,
                 title: "Follow the rules!",
                 content: "Take care of one another! Please!",
               ),
@@ -86,7 +88,8 @@ class _TutorialScreenState extends State<TutorialScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: Container(
+          color: isDarkMode(context) ? Colors.black : Colors.white,
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: Sizes.size24,
@@ -97,10 +100,12 @@ class _TutorialScreenState extends State<TutorialScreen> {
               duration: Duration(
                 milliseconds: 300,
               ),
-              child: CupertinoButton(
-                onPressed: _onEnterAppTap,
-                color: Theme.of(context).primaryColor,
-                child: Text('Enter the app!'),
+              child: GestureDetector(
+                onTap: _onEnterAppTap,
+                child: FormButton(
+                  label: 'Enter the app!',
+                  disabled: false,
+                ),
               ),
             ),
           ),

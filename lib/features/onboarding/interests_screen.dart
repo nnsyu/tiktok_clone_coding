@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
+
+import '../../utils.dart';
 
 const interests = [
   "Daily Life",
@@ -151,8 +154,10 @@ class _InterestsScreenState extends State<InterestsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 2,
+      bottomNavigationBar: Container(
+        color: isDarkMode(context)
+            ? Theme.of(context).appBarTheme.backgroundColor
+            : Colors.grey.shade50,
         child: Padding(
           padding: EdgeInsets.only(
             bottom: Sizes.size40,
@@ -160,10 +165,12 @@ class _InterestsScreenState extends State<InterestsScreen> {
             left: Sizes.size24,
             right: Sizes.size24,
           ),
-          child: CupertinoButton(
-            onPressed: _onNextTap,
-            child: Text('Next'),
-            color: Theme.of(context).primaryColor,
+          child: GestureDetector(
+            onTap: _onNextTap,
+            child: FormButton(
+              disabled: false,
+              label: 'Next',
+            ),
           ),
         ),
       ),
