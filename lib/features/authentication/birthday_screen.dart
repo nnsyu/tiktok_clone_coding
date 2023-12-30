@@ -116,11 +116,17 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             ? Theme.of(context).appBarTheme.backgroundColor
             : Colors.grey.shade50,
         height: 300,
-        child: CupertinoDatePicker(
-            maximumDate: _maximumDate,
-            initialDateTime: _maximumDate,
-            mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: _setTextFieldDate),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: Sizes.size32,
+            bottom: Sizes.size64,
+          ),
+          child: CupertinoDatePicker(
+              maximumDate: _maximumDate,
+              initialDateTime: _maximumDate,
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: _setTextFieldDate),
+        ),
       ),
     );
   }

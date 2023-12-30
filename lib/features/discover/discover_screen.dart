@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 class DiscoverScreen extends StatefulWidget {
   DiscoverScreen({super.key});
@@ -97,7 +98,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                             FaIcon(
                               FontAwesomeIcons.magnifyingGlass,
                               size: Sizes.size16,
-                              color: Colors.grey.shade700,
+                              color: isDarkMode(context) ? Colors.grey.shade400 : Colors.grey.shade700,
                             ),
                           ],
                         ),
@@ -107,7 +108,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         child: FaIcon(
                           FontAwesomeIcons.solidCircleXmark,
                           size: Sizes.size20,
-                          color: Colors.grey.shade700,
+                          color: isDarkMode(context) ? Colors.grey.shade400 : Colors.grey.shade700,
                         ),
                       ),
                       border: OutlineInputBorder(
@@ -117,7 +118,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade200,
+                      fillColor: isDarkMode(context) ? Colors.grey.shade700 : Colors.grey.shade200,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: Sizes.size12,
                         vertical: Sizes.size10,
@@ -153,9 +154,6 @@ class _DiscoverScreenState extends State<DiscoverScreen>
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16,
             ),
-            indicatorColor: Colors.black,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey.shade500,
             tabs: [
               for (var tab in tabs)
                 Tab(
@@ -203,57 +201,60 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                     ),
                     Gaps.v10,
                     Text(
-                      "${constraints.maxWidth} This is a very long caption for my tiktok that im upload just now currently.",
+                      "This is a very long caption for my tiktok that im upload just now currently.",
                       style: const TextStyle(
-                        fontSize: Sizes.size16 + Sizes.size1,
+                        fontSize: Sizes.size16,
                         fontWeight: FontWeight.w500,
+                        height: 1.2,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Gaps.v8,
-                    if(constraints.maxWidth < 200 || constraints.maxWidth > 250)
-                      DefaultTextStyle(
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade600,
-                        ),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 12,
-                              backgroundImage:
-                                  NetworkImage("https://avatars.githubusercontent.com/u/34337539?v=4"),
-                            ),
-                            Gaps.h4,
-                            Expanded(
-                              child: Text(
-                                "My avatar is is going to very long",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                // style: TextStyle(
-                                //   fontWeight: FontWeight.w500,
-                                //   color: Colors.grey.shade600,
-                                // ),
-                              ),
-                            ),
-                            Gaps.h4,
-                            FaIcon(
-                              FontAwesomeIcons.heart,
-                              size: Sizes.size16,
-                              color: Colors.grey.shade600,
-                            ),
-                            Gaps.h2,
-                            Text(
-                              "2.5M",
+                    //if(constraints.maxWidth < 200 || constraints.maxWidth > 250)
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: isDarkMode(context)
+                            ? Colors.grey.shade300
+                            : Colors.grey.shade600,
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 12,
+                            backgroundImage: NetworkImage(
+                                "https://avatars.githubusercontent.com/u/34337539?v=4"),
+                          ),
+                          Gaps.h4,
+                          Expanded(
+                            child: Text(
+                              "My avatar is is going to very long",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               // style: TextStyle(
                               //   fontWeight: FontWeight.w500,
                               //   color: Colors.grey.shade600,
                               // ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Gaps.h4,
+                          FaIcon(
+                            FontAwesomeIcons.heart,
+                            size: Sizes.size16,
+                            color: Colors.grey.shade600,
+                          ),
+                          Gaps.h2,
+                          Text(
+                            "2.5M",
+                            // style: TextStyle(
+                            //   fontWeight: FontWeight.w500,
+                            //   color: Colors.grey.shade600,
+                            // ),
+                          ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               ),

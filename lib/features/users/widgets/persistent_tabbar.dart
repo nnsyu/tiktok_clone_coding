@@ -4,16 +4,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/breakpoints.dart';
 import '../../../constants/sizes.dart';
+import '../../../utils.dart';
 
 class PersistentTabbar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final isDark = isDarkMode(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor,
         border: Border.symmetric(
           horizontal: BorderSide(
-            color: Colors.grey.shade200,
+            color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
             width: 0.5,
           ),
         ),
@@ -23,8 +26,7 @@ class PersistentTabbar extends SliverPersistentHeaderDelegate {
           tabAlignment: constraints.maxWidth > Breakpoints.sm ? TabAlignment.center : TabAlignment.fill,
           isScrollable: constraints.maxWidth > Breakpoints.sm ? true : false,
           splashFactory: NoSplash.splashFactory,
-          indicatorColor: Colors.black,
-          labelColor: Colors.black,
+          indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
           indicatorSize: TabBarIndicatorSize.label,
           labelPadding: EdgeInsets.symmetric(
             vertical: Sizes.size10,
