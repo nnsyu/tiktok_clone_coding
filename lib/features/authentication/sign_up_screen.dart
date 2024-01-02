@@ -54,7 +54,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Gaps.v80,
               Text(
-                S.of(context).signUpTitle("TikTok"),
+                S.of(context).signUpTitle("TikTok", DateTime.now()),
                 style: TextStyle(
                   fontSize: Sizes.size24,
                   fontWeight: FontWeight.w700,
@@ -64,7 +64,7 @@ class SignUpScreen extends StatelessWidget {
               Opacity(
                 opacity: 0.7,
                 child: Text(
-                  S.of(context).signUpSubTitle,
+                  S.of(context).signUpSubTitle(1),
                   style: TextStyle(
                     fontSize: Sizes.size16,
                   ),
@@ -131,7 +131,7 @@ class SignUpScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () => _onLoginTap(context),
                 child: Text(
-                  S.of(context).logIn,
+                  S.of(context).logIn("male"),
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
