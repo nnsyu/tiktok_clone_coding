@@ -9,7 +9,7 @@
       },
       "when": {
         "type": "DateTime",
-        "format": "yQQQQ / LLLL : Hm",
+        "format": "y",
         "isCustomDateFormat": "true"
       }
     }
@@ -28,7 +28,7 @@
   "emailPasswordButton": "Use email & password",
   "appleButton": "Continue with Apple",
   "alreadyHaveAnAccount": "Already have an account?",
-  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}",
+  "logIn": "Log in {gender, select, male{sir} female{madam} other{}}",
   "likeCount": "{potato}",
   "@likeCount": {
     "description": "Anything you want",

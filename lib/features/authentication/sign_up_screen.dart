@@ -10,22 +10,53 @@ import '../../utils.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static String routeName = "/";
   const SignUpScreen({super.key});
 
-  void _onLoginTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
+  void _onLoginTap(BuildContext context) async {
+    final result = await Navigator.of(context).pushNamed(LoginScreen.routeName);
+    print(result);
+    // final result = await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => const LoginScreen(),
+    //   ),
+    // );
   }
 
   void _onEmailTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const UserNameScreen(),
-      ),
-    );
+    Navigator.of(context).pushNamed(UserNameScreen.routeName);
+    
+    // Navigator.of(context).push(
+    //   PageRouteBuilder(
+    //     transitionDuration: Duration(
+    //       seconds: 1,
+    //     ),
+    //     reverseTransitionDuration: Duration(
+    //       seconds: 1,
+    //     ),
+    //     pageBuilder: (context, animation, secondaryAnimation) =>
+    //         UserNameScreen(),
+    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //       final offsetAnimation = Tween(
+    //         begin: Offset(1, 0),
+    //         end: Offset.zero,
+    //       ).animate(animation);
+    //
+    //       final opacityAnimation = Tween(
+    //         begin: 0.5,
+    //         end: 1.0,
+    //       ).animate(animation);
+    //
+    //       return SlideTransition(
+    //         position: offsetAnimation,
+    //         child: FadeTransition(
+    //           opacity: opacityAnimation,
+    //           child: child,
+    //         ),
+    //       );
+    //     }
+    //   ),
+    // );
   }
 
   void _onAppleTap(BuildContext context) {}
@@ -131,7 +162,7 @@ class SignUpScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () => _onLoginTap(context),
                 child: Text(
-                  S.of(context).logIn("male"),
+                  S.of(context).logIn("other"),
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,

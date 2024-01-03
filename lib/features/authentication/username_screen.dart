@@ -6,6 +6,7 @@ import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'widgets/form_button.dart';
 
 class UserNameScreen extends StatefulWidget {
+  static String routeName = "/username";
   const UserNameScreen({super.key});
 
   @override
