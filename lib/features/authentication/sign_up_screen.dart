@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 
@@ -14,8 +16,14 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
-    final result = await Navigator.of(context).pushNamed(LoginScreen.routeName);
-    print(result);
+    // Navigator 2 GoRouter
+    context.go(LoginScreen.routeName);
+
+    // Navigator 1의 pushNamed
+    //final result = await Navigator.of(context).pushNamed(LoginScreen.routeName);
+    //print(result);
+
+    // Navigator 1의 push
     // final result = await Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (context) => const LoginScreen(),
@@ -24,8 +32,13 @@ class SignUpScreen extends StatelessWidget {
   }
 
   void _onEmailTap(BuildContext context) {
-    Navigator.of(context).pushNamed(UserNameScreen.routeName);
-    
+    // Navigator 2 GoRouter
+    context.push(UserNameScreen.routeName);
+
+    // Navigator 1의 pushNamed
+    //Navigator.of(context).pushNamed(UserNameScreen.routeName);
+
+    // Navigator 1의 push
     // Navigator.of(context).push(
     //   PageRouteBuilder(
     //     transitionDuration: Duration(

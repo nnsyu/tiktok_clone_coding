@@ -11,6 +11,7 @@ import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dar
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 import 'package:tiktok_clone/features/onboarding/tutorial_screen_backup.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
+import 'package:tiktok_clone/router.dart';
 
 import 'constants/sizes.dart';
 import 'features/authentication/sign_up_screen.dart';
@@ -37,7 +38,8 @@ class TikTokApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //S.load(const Locale("en"));
 
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       localizationsDelegates: [
@@ -117,14 +119,6 @@ class TikTokApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: "/",
-      routes: {
-        SignUpScreen.routeName:(context) => const SignUpScreen(),
-        UserNameScreen.routeName:(context) => const UserNameScreen(),
-        LoginScreen.routeName:(context) => const LoginScreen(),
-        EmailScreen.routeName:(context) => const EmailScreen(),
-
-      },
     );
   }
 }
