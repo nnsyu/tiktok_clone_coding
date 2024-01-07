@@ -7,6 +7,7 @@ import 'widgets/form_button.dart';
 
 class UserNameScreen extends StatefulWidget {
   static String routeName = "/username";
+
   const UserNameScreen({super.key});
 
   @override
@@ -37,8 +38,11 @@ class _UserNameScreenState extends State<UserNameScreen> {
 
   void _onNextTap() {
     if (_username.isEmpty) return;
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const EmailScreen()));
+    Navigator.pushNamed(
+      context,
+      EmailScreen.routeName,
+      arguments: EmailScreenArgs(username: _username),
+    );
   }
 
   @override
