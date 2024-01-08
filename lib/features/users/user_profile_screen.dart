@@ -9,8 +9,13 @@ import 'package:tiktok_clone/features/users/widgets/persistent_tabbar.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String username;
+  final String tab;
 
-  const UserProfileScreen({super.key, required this.username});
+  const UserProfileScreen({
+    super.key,
+    required this.username,
+    required this.tab,
+  });
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -33,6 +38,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: widget.tab == "likes" ? 1 : 0,
           length: 2,
           child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -53,9 +59,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 SliverToBoxAdapter(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      if(constraints.maxWidth > Breakpoints.lg) {
+                      if (constraints.maxWidth > Breakpoints.lg) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: Sizes.size24,),
+                          padding: const EdgeInsets.only(
+                            bottom: Sizes.size24,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -92,7 +100,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   Gaps.v16,
                                   SizedBox(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         PopCount(
                                           count: '37',
@@ -135,12 +144,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     FractionallySizedBox(
                                       widthFactor: 0.7,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Expanded(
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                color: Theme.of(context).primaryColor,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(Sizes.size3),
                                                 ),
@@ -212,7 +223,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     ),
                                     Gaps.v14,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         FaIcon(
                                           FontAwesomeIcons.link,

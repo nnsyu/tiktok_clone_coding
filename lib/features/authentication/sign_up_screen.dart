@@ -12,7 +12,8 @@ import '../../utils.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
-  static String routeName = "/";
+  static String routeURL = "/";
+  static String routeName = "signUp";
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
@@ -33,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
 
   void _onEmailTap(BuildContext context) {
     // Navigator 2 GoRouter
-    context.push(UserNameScreen.routeName);
+    context.pushNamed(UserNameScreen.routeName);
 
     // Navigator 1의 pushNamed
     //Navigator.of(context).pushNamed(UserNameScreen.routeName);
