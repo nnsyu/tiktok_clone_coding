@@ -16,13 +16,16 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermission = false;
   bool _deniedPermissions = false;
 
   bool _isSelfieMode = false;
 
   late CameraController _cameraController;
+  late double _maxZoomLevel;
+  late double _minZoomLevel;
+  double _currentZoomLevel = 1.0;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -35,7 +38,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   late final AnimationController _progressAnimationController =
       AnimationController(
     vsync: this,
-    duration: Duration(seconds: 5),
+    duration: Duration(seconds: 10),
     lowerBound: 0.0,
     upperBound: 1.0,
   );
@@ -61,7 +64,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     await _cameraController.prepareForVideoRecording();
 
+    _maxZoomLevel = await _cameraController.getMaxZoomLevel();
+    _minZoomLevel = await _cameraController.getMinZoomLevel();
+    print("maxZoomLevel : $_maxZoomLevel");
+
     _flashMode = _cameraController.value.flashMode;
+
+    setState(() {});
   }
 
   Future<void> initPermissions() async {
@@ -86,6 +95,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void initState() {
     super.initState();
     initPermissions();
+
+    WidgetsBinding.instance.addObserver(this);
+
     _progressAnimationController.addListener(() {
       setState(() {});
     });
@@ -102,6 +114,21 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _cameraController.dispose();
     _buttonAnimationController.dispose();
     super.dispose();
+  }
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(!_hasPermission) return;
+    if(!_cameraController.value.isInitialized) return;
+
+    if(state == AppLifecycleState.inactive) {
+      _cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      initCamera();
+    }
+
+    //print(state);
   }
 
   Future<void> toggleSelfieMode() async {
@@ -171,6 +198,19 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       ),
     );
+  }
+
+  Future<void> _onPanUpdate(DragUpdateDetails details) async {
+    double reverseDelta = -details.delta.dy;
+    print("reverseDelta : $reverseDelta");
+
+    _currentZoomLevel += (reverseDelta * 0.05);
+
+    if(_currentZoomLevel >= _maxZoomLevel) _currentZoomLevel = _maxZoomLevel;
+    if(_currentZoomLevel <= _minZoomLevel) _currentZoomLevel = _minZoomLevel;
+
+    await _cameraController.setZoomLevel(_currentZoomLevel);
+    setState(() {});
   }
 
   @override
@@ -253,6 +293,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                         GestureDetector(
                           onTapDown: _startRecording,
                           onTapUp: (details) => _stopRecording(),
+                          onPanUpdate: (details) => _onPanUpdate(details),
                           child: ScaleTransition(
                             scale: _buttonAnimation,
                             child: Stack(
