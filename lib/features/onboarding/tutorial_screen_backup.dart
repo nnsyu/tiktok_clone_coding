@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/tutorial_page.dart';
 
 import '../../constants/sizes.dart';
-import '../main_navigation/main_navigation_screen.dart';
 
 class TutorialScreenBackup extends StatefulWidget {
   const TutorialScreenBackup({super.key});
@@ -15,7 +15,6 @@ class TutorialScreenBackup extends StatefulWidget {
 }
 
 class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
-
   int _selectedIndex = 0;
 
   void _onTap(int index) {
@@ -25,12 +24,14 @@ class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
   }
 
   void _onNextTab() {
-    if(_selectedIndex == 2) {
+    if (_selectedIndex == 2) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => MainNavigationScreen(),
+          builder: (context) => MainNavigationScreen(
+            tab: "home",
+          ),
         ),
-            (route) => false,
+        (route) => false,
       );
     } else {
       setState(() {
@@ -54,8 +55,8 @@ class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _selectedIndex == 0 ? true : false,
-      onPopInvoked : (didPop){
-        if(_selectedIndex != 0) {
+      onPopInvoked: (didPop) {
+        if (_selectedIndex != 0) {
           setState(() {
             _selectedIndex--;
           });
@@ -70,8 +71,8 @@ class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage:
-                  NetworkImage('https://avatars.githubusercontent.com/u/34337539?v=4'),
+                  backgroundImage: NetworkImage(
+                      'https://avatars.githubusercontent.com/u/34337539?v=4'),
                 ),
                 Gaps.v10,
                 Stack(
@@ -82,7 +83,7 @@ class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
                         isCurrent: _selectedIndex == 0,
                         title: "Watch cool videos!",
                         content:
-                        "Videos are personalized for you based on what you watch, like, and share.",
+                            "Videos are personalized for you based on what you watch, like, and share.",
                       ),
                     ),
                     Offstage(
@@ -98,7 +99,8 @@ class _TutorialScreenBackupState extends State<TutorialScreenBackup> {
                       child: TutorialPage(
                         isCurrent: _selectedIndex == 2,
                         title: "Enjoy your ride!",
-                        content: "Videos are personalized for you based on what you watch, like, and share.",
+                        content:
+                            "Videos are personalized for you based on what you watch, like, and share.",
                       ),
                     ),
                   ],

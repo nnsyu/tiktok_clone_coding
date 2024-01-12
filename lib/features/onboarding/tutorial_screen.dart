@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/tutorial_page.dart';
 
 import '../../constants/sizes.dart';
@@ -24,12 +25,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   Page _showingPage = Page.first;
 
   void _onEnterAppTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => MainNavigationScreen(),
-      ),
-          (route) => false,
-    );
+    context.go("/home");
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
@@ -114,5 +110,3 @@ class _TutorialScreenState extends State<TutorialScreen> {
     );
   }
 }
-
-

@@ -14,63 +14,22 @@ import 'login_screen.dart';
 class SignUpScreen extends StatelessWidget {
   static String routeURL = "/";
   static String routeName = "signUp";
+
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
     // Navigator 2 GoRouter
-    context.go(LoginScreen.routeName);
-
-    // Navigator 1의 pushNamed
-    //final result = await Navigator.of(context).pushNamed(LoginScreen.routeName);
-    //print(result);
-
-    // Navigator 1의 push
-    // final result = await Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => const LoginScreen(),
-    //   ),
-    // );
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
     // Navigator 2 GoRouter
-    context.pushNamed(UserNameScreen.routeName);
-
-    // Navigator 1의 pushNamed
-    //Navigator.of(context).pushNamed(UserNameScreen.routeName);
-
-    // Navigator 1의 push
-    // Navigator.of(context).push(
-    //   PageRouteBuilder(
-    //     transitionDuration: Duration(
-    //       seconds: 1,
-    //     ),
-    //     reverseTransitionDuration: Duration(
-    //       seconds: 1,
-    //     ),
-    //     pageBuilder: (context, animation, secondaryAnimation) =>
-    //         UserNameScreen(),
-    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //       final offsetAnimation = Tween(
-    //         begin: Offset(1, 0),
-    //         end: Offset.zero,
-    //       ).animate(animation);
-    //
-    //       final opacityAnimation = Tween(
-    //         begin: 0.5,
-    //         end: 1.0,
-    //       ).animate(animation);
-    //
-    //       return SlideTransition(
-    //         position: offsetAnimation,
-    //         child: FadeTransition(
-    //           opacity: opacityAnimation,
-    //           child: child,
-    //         ),
-    //       );
-    //     }
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserNameScreen(),
+      ),
+    );
   }
 
   void _onAppleTap(BuildContext context) {}

@@ -12,9 +12,6 @@ class EmailScreenArgs {
 }
 
 class EmailScreen extends StatefulWidget {
-  static String routeURL = "email";
-  static String routeName = "email";
-
   final String username;
 
   const EmailScreen({
@@ -64,7 +61,7 @@ class _EamilScreenState extends State<EmailScreen> {
 
   void _onSubmmit() {
     if (_email.isEmpty || _isEmailValid() != null) {
-      return null;
+      return;
     }
 
     Navigator.push(
