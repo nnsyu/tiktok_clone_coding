@@ -3,7 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
-import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
@@ -59,7 +60,7 @@ class _VideoPostState extends State<VideoPost>
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
 
-    if (kIsWeb || VideoConfigData.of(context).autoMute) {
+    if (kIsWeb /*|| CommonConfigData.of(context).autoMute*/) {
       _onMute();
     }
 
@@ -79,6 +80,7 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
+
   }
 
   @override
@@ -325,10 +327,20 @@ class _VideoPostState extends State<VideoPost>
           Positioned(
             left: Sizes.size24,
             top: Sizes.size48,
+            // child: GestureDetector(
+            //   onTap: _onMute,
+            //   child: FaIcon(
+            //     _isMute ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
+            //     color: Colors.white,
+            //     size: Sizes.size24,
+            //   ),
+            // ),
             child: GestureDetector(
-              onTap: _onMute,
+              onTap: () {
+                context.read<CommonConfig>().toggleIsMuted();
+              },
               child: FaIcon(
-                _isMute ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
+                context.watch<CommonConfig>().isMute ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
                 size: Sizes.size24,
               ),

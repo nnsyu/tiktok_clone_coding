@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
@@ -31,14 +32,29 @@ void main() async {
   runApp(const TikTokApp());
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends StatefulWidget {
   const TikTokApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    //S.load(const Locale("en"));
+  State<TikTokApp> createState() => _TikTokAppState();
+}
 
-    return VideoConfig(
+class _TikTokAppState extends State<TikTokApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //final config = context.watch<CommonConfig>();
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CommonConfig(),
+        ),
+      ],
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
@@ -53,40 +69,39 @@ class TikTokApp extends StatelessWidget {
           Locale("en"),
           Locale("ko"),
         ],
-        themeMode: ThemeMode.system,
+        themeMode: /*context.watch<CommonConfig>().isDarkMode ? ThemeMode.dark : */ ThemeMode.light,
         theme: ThemeData(
-          brightness: Brightness.light,
-          textTheme: Typography.blackMountainView,
-          scaffoldBackgroundColor: Colors.white,
-          primaryColor: const Color(0xFFE9435A),
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: const Color(0xFFE9435A),
-          ),
-          tabBarTheme: TabBarTheme(
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey.shade500,
-            indicatorColor: Colors.black,
-          ),
-          splashColor: Colors.transparent,
-          appBarTheme: AppBarTheme(
-            // foregroundColor: Colors.black,
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
-            elevation: 0,
-            titleTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: Sizes.size16 + Sizes.size2,
-              fontWeight: FontWeight.w600,
+            brightness: Brightness.light,
+            textTheme: Typography.blackMountainView,
+            scaffoldBackgroundColor: Colors.white,
+            primaryColor: const Color(0xFFE9435A),
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: const Color(0xFFE9435A),
             ),
-          ),
-          bottomAppBarTheme: BottomAppBarTheme(
-            color: Colors.grey.shade50,
-            surfaceTintColor: Colors.white,
-          ),
-          listTileTheme: ListTileThemeData(
-            iconColor: Colors.black,
-          )
-        ),
+            tabBarTheme: TabBarTheme(
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey.shade500,
+              indicatorColor: Colors.black,
+            ),
+            splashColor: Colors.transparent,
+            appBarTheme: AppBarTheme(
+              // foregroundColor: Colors.black,
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              elevation: 0,
+              titleTextStyle: TextStyle(
+                color: Colors.black,
+                fontSize: Sizes.size16 + Sizes.size2,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            bottomAppBarTheme: BottomAppBarTheme(
+              color: Colors.grey.shade50,
+              surfaceTintColor: Colors.white,
+            ),
+            listTileTheme: ListTileThemeData(
+              iconColor: Colors.black,
+            )),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
           textTheme: Typography.whiteMountainView,

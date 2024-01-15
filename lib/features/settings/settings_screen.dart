@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -28,6 +29,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final config = context.watch<CommonConfig>();
+
     return Localizations.override(
       context: context,
       locale: const Locale("ko"),
@@ -44,15 +47,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: ListView(
               children: [
                 SwitchListTile.adaptive(
-                  value: VideoConfigData.of(context).autoMute,
-                  onChanged: (value){
-                    VideoConfigData.of(context).toggleMuted();
-                  },
+                  value: config.isDarkMode,
+                  onChanged: (value) => context.read<CommonConfig>().toggleMode(),
+                  title: Text(
+                    config.isDarkMode ? "Dark Mode" : "Light Mode",
+                  ),
+                  subtitle: Text(
+                    "Videos muted by default",
+                  ),
+                  activeColor: Theme.of(context).primaryColor,
+                ),
+                SwitchListTile.adaptive(
+                  value: config.isMute,
+                  onChanged: (value) => context.read<CommonConfig>().toggleIsMuted(),
                   title: Text(
                     "Auto Mute",
                   ),
                   subtitle: Text(
-                    "Videos will be muted by default.",
+                    "Videos muted by default",
+                  ),
+                  activeColor: Theme.of(context).primaryColor,
+                ),
+                SwitchListTile.adaptive(
+                  value: _notifications,
+                  onChanged: _notificationChanged,
+                  title: Text(
+                    "Enable notifications",
+                  ),
+                  subtitle: Text(
+                    "They will be cute",
                   ),
                   activeColor: Theme.of(context).primaryColor,
                 ),
