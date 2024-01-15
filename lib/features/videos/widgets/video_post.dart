@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
+import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
@@ -58,9 +59,8 @@ class _VideoPostState extends State<VideoPost>
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
 
-    if (kIsWeb) {
+    if (kIsWeb || VideoConfigData.of(context).autoMute) {
       _onMute();
-      //await _videoPlayerController.setVolume(0);
     }
 
     _videoPlayerController.addListener(_onVideoChange);
@@ -205,9 +205,6 @@ class _VideoPostState extends State<VideoPost>
                     duration: _animationDuration,
                     child: FaIcon(
                       FontAwesomeIcons.play,
-                      // _videoPlayerController.value.isPlaying
-                      //     ? FontAwesomeIcons.pause
-                      //     : FontAwesomeIcons.play,
                       color: Colors.white,
                       size: Sizes.size52,
                     ),
@@ -286,13 +283,6 @@ class _VideoPostState extends State<VideoPost>
                       color: Colors.white,
                     ),
                     Gaps.h10,
-                    // Container(
-                    //   child: Expanded(
-                    //     child: Marquee(
-                    //       text: "123",
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ],
@@ -333,14 +323,14 @@ class _VideoPostState extends State<VideoPost>
             ),
           ),
           Positioned(
-            top: 20,
-            right: 10,
+            left: Sizes.size24,
+            top: Sizes.size48,
             child: GestureDetector(
               onTap: _onMute,
               child: FaIcon(
                 _isMute ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
-                size: Sizes.size32,
+                size: Sizes.size24,
               ),
             ),
           ),

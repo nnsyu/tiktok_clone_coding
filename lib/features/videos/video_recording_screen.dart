@@ -12,6 +12,9 @@ import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
 import 'package:tiktok_clone/features/videos/widgets/flash_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  static const String routeName = "postVideo";
+  static const String routeURL = "/upload";
+
   const VideoRecordingScreen({super.key});
 
   @override
@@ -100,14 +103,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void initState() {
     super.initState();
 
-    if(!_noCamera) {
+    if (!_noCamera) {
       initPermissions();
     } else {
       setState(() {
         _hasPermission = true;
       });
     }
-
 
     WidgetsBinding.instance.addObserver(this);
 
@@ -124,18 +126,20 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void dispose() {
     _progressAnimationController.dispose();
-    _cameraController.dispose();
     _buttonAnimationController.dispose();
+    if (!_noCamera) {
+      _cameraController.dispose();
+    }
     super.dispose();
   }
 
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(!_hasPermission) return;
-    if(!_cameraController.value.isInitialized) return;
+    if (_noCamera) return;
+    if (!_hasPermission) return;
+    if (!_cameraController.value.isInitialized) return;
 
-    if(state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.inactive) {
       _cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
       initCamera();
@@ -219,8 +223,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     _currentZoomLevel += (reverseDelta * 0.05);
 
-    if(_currentZoomLevel >= _maxZoomLevel) _currentZoomLevel = _maxZoomLevel;
-    if(_currentZoomLevel <= _minZoomLevel) _currentZoomLevel = _minZoomLevel;
+    if (_currentZoomLevel >= _maxZoomLevel) _currentZoomLevel = _maxZoomLevel;
+    if (_currentZoomLevel <= _minZoomLevel) _currentZoomLevel = _minZoomLevel;
 
     await _cameraController.setZoomLevel(_currentZoomLevel);
     setState(() {});
@@ -253,13 +257,20 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
             : Stack(
                 alignment: Alignment.center,
                 children: [
-                  if(!_noCamera && _cameraController.value.isInitialized)
+                  if (!_noCamera && _cameraController.value.isInitialized)
                     Positioned.fill(
                       child: CameraPreview(
                         _cameraController,
                       ),
                     ),
-                  if(!_noCamera)
+                  const Positioned(
+                    top: Sizes.size36,
+                    left: Sizes.size20,
+                    child: CloseButton(
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (!_noCamera)
                     Positioned(
                       top: Sizes.size36,
                       right: Sizes.size3,
