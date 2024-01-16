@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/email_screen.dart';
@@ -12,6 +13,8 @@ import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 import 'package:tiktok_clone/features/onboarding/tutorial_screen_backup.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
+import 'package:tiktok_clone/features/videos/repos/video_playback_config_repo.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/router.dart';
 
 import 'constants/sizes.dart';
@@ -20,7 +23,7 @@ import 'features/onboarding/tutorial_screen.dart';
 import 'generated/l10n.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // await SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   // ]);
@@ -29,7 +32,14 @@ void main() async {
   //   SystemUiOverlayStyle.dark,
   // );
 
-  runApp(const TikTokApp());
+  final preferences = await SharedPreferences.getInstance();
+  final repository = PlaybackConfigRepository(preferences);
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => PlaybackConfigViewModel(repository),
+    ),
+  ], child: const TikTokApp()));
 }
 
 class TikTokApp extends StatefulWidget {
@@ -47,95 +57,86 @@ class _TikTokAppState extends State<TikTokApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => CommonConfig(),
-        ),
+    return MaterialApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      title: 'TikTok Clone',
+      localizationsDelegates: [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
       ],
-      builder: (context, child) {
-        return MaterialApp.router(
-          routerConfig: router,
-          debugShowCheckedModeBanner: false,
-          title: 'TikTok Clone',
-          localizationsDelegates: [
-            S.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: [
-            Locale("en"),
-            Locale("ko"),
-          ],
-          themeMode: context.watch<CommonConfig>().isDarkMode ? ThemeMode.dark :  ThemeMode.light,
-          theme: ThemeData(
-              brightness: Brightness.light,
-              textTheme: Typography.blackMountainView,
-              scaffoldBackgroundColor: Colors.white,
-              primaryColor: const Color(0xFFE9435A),
-              textSelectionTheme: TextSelectionThemeData(
-                cursorColor: const Color(0xFFE9435A),
-              ),
-              tabBarTheme: TabBarTheme(
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey.shade500,
-                indicatorColor: Colors.black,
-              ),
-              splashColor: Colors.transparent,
-              appBarTheme: AppBarTheme(
-                // foregroundColor: Colors.black,
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                elevation: 0,
-                titleTextStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: Sizes.size16 + Sizes.size2,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              bottomAppBarTheme: BottomAppBarTheme(
-                color: Colors.grey.shade50,
-                surfaceTintColor: Colors.white,
-              ),
-              listTileTheme: ListTileThemeData(
-                iconColor: Colors.black,
-              )),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            textTheme: Typography.whiteMountainView,
-            scaffoldBackgroundColor: Colors.black,
-            primaryColor: const Color(0xFFE9435A),
-            textSelectionTheme: TextSelectionThemeData(
-              cursorColor: const Color(0xFFE9435A),
-            ),
-            tabBarTheme: TabBarTheme(
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey.shade700,
-              indicatorColor: Colors.white,
-            ),
-            bottomAppBarTheme: BottomAppBarTheme(
-              color: Colors.grey.shade900,
-              surfaceTintColor: Colors.grey.shade900,
-            ),
-            appBarTheme: AppBarTheme(
-              surfaceTintColor: Colors.grey.shade900,
-              backgroundColor: Colors.grey.shade900,
-              titleTextStyle: TextStyle(
-                color: Colors.white,
-                fontSize: Sizes.size16 + Sizes.size2,
-                fontWeight: FontWeight.w600,
-              ),
-              actionsIconTheme: IconThemeData(
-                color: Colors.grey.shade100,
-              ),
-              iconTheme: IconThemeData(
-                color: Colors.grey.shade100,
-              ),
+      supportedLocales: [
+        Locale("en"),
+        Locale("ko"),
+      ],
+      themeMode: ThemeMode.light,
+      theme: ThemeData(
+          brightness: Brightness.light,
+          textTheme: Typography.blackMountainView,
+          scaffoldBackgroundColor: Colors.white,
+          primaryColor: const Color(0xFFE9435A),
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: const Color(0xFFE9435A),
+          ),
+          tabBarTheme: TabBarTheme(
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey.shade500,
+            indicatorColor: Colors.black,
+          ),
+          splashColor: Colors.transparent,
+          appBarTheme: AppBarTheme(
+            // foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.size16 + Sizes.size2,
+              fontWeight: FontWeight.w600,
             ),
           ),
-        );
-      },
+          bottomAppBarTheme: BottomAppBarTheme(
+            color: Colors.grey.shade50,
+            surfaceTintColor: Colors.white,
+          ),
+          listTileTheme: ListTileThemeData(
+            iconColor: Colors.black,
+          )),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        textTheme: Typography.whiteMountainView,
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: const Color(0xFFE9435A),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: const Color(0xFFE9435A),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
+          indicatorColor: Colors.white,
+        ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
+          surfaceTintColor: Colors.grey.shade900,
+        ),
+        appBarTheme: AppBarTheme(
+          surfaceTintColor: Colors.grey.shade900,
+          backgroundColor: Colors.grey.shade900,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+          actionsIconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -29,8 +30,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final config = context.watch<CommonConfig>();
-
     return Localizations.override(
       context: context,
       locale: const Locale("ko"),
@@ -46,20 +45,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             child: ListView(
               children: [
+                // SwitchListTile.adaptive(
+                //   value: context.watch<PlaybackConfigViewModel>().muted,
+                //   onChanged: (value) => context.read<PlaybackConfigViewModel>().setMuted(value),
+                //   title: Text(
+                //     config.isDarkMode ? "Dark Mode" : "Light Mode",
+                //   ),
+                //   subtitle: Text(
+                //     "Videos muted by default",
+                //   ),
+                //   activeColor: Theme.of(context).primaryColor,
+                // ),
                 SwitchListTile.adaptive(
-                  value: config.isDarkMode,
-                  onChanged: (value) => context.read<CommonConfig>().toggleMode(),
+                  value: context.watch<PlaybackConfigViewModel>().autoplay,
+                  onChanged: (value) => context.read<PlaybackConfigViewModel>().setAutoplay(value),
                   title: Text(
-                    config.isDarkMode ? "Dark Mode" : "Light Mode",
+                    "Auto Play",
                   ),
                   subtitle: Text(
-                    "Videos muted by default",
+                    "Videos auto play by default",
                   ),
                   activeColor: Theme.of(context).primaryColor,
                 ),
                 SwitchListTile.adaptive(
-                  value: config.isMute,
-                  onChanged: (value) => context.read<CommonConfig>().toggleIsMuted(),
+                  value: context.watch<PlaybackConfigViewModel>().muted,
+                  onChanged: (value) => context.read<PlaybackConfigViewModel>().setMuted(value),
                   title: Text(
                     "Auto Mute",
                   ),

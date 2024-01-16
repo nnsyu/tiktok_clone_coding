@@ -5,14 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
-import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
-import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/features/videos/views/widgets/video_button.dart';
+import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import '../../../constants/gaps.dart';
-import '../../../constants/sizes.dart';
-import '../../../generated/l10n.dart';
 
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
@@ -45,6 +45,8 @@ class _VideoPostState extends State<VideoPost>
   final String songName =
       "<(EwooTeacher Album) Oong playing in the park Track 1>";
 
+  late final PlaybackConfigViewModel readPlaybackVM;
+
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
       if (_videoPlayerController.value.duration ==
@@ -60,7 +62,9 @@ class _VideoPostState extends State<VideoPost>
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
 
-    if (kIsWeb /*|| CommonConfigData.of(context).autoMute*/) {
+    if(!mounted) return;
+
+    if (kIsWeb || readPlaybackVM.muted) {
       _onMute();
     }
 
@@ -71,6 +75,8 @@ class _VideoPostState extends State<VideoPost>
   @override
   void initState() {
     super.initState();
+    readPlaybackVM = context.read<PlaybackConfigViewModel>();
+
     _initVideoPlayer();
 
     _animationController = AnimationController(
@@ -81,6 +87,7 @@ class _VideoPostState extends State<VideoPost>
       duration: _animationDuration,
     );
 
+    readPlaybackVM.addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -91,6 +98,17 @@ class _VideoPostState extends State<VideoPost>
     widget.onVideoFinished;
   }
 
+  void _onPlaybackConfigChanged() {
+    if(!mounted) return;
+
+    final muted = readPlaybackVM.muted;
+    if(muted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(50);
+    }
+  }
+
   void _onVisibilityChanged(VisibilityInfo info) {
     if (!mounted) return;
 
@@ -98,17 +116,14 @@ class _VideoPostState extends State<VideoPost>
         !_videoPlayerController.value.isPlaying &&
         !_isPaused) {
       _videoPlayerController.play();
+      final autoplay = readPlaybackVM.autoplay;
+
+      if(!autoplay) _onTogglePause();
     }
 
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
     }
-
-    /*else if (info.visibleFraction != 1 &&
-        _videoPlayerController.value.isPlaying) {
-      _videoPlayerController.pause();
-    }*/
-    print(info.visibleFraction);
   }
 
   void _onTogglePause() {
@@ -154,11 +169,9 @@ class _VideoPostState extends State<VideoPost>
     _onTogglePause();
   }
 
-  void _onMute() async {
+  void _onMute() {
     _isMute = !_isMute;
-    _isMute
-        ? await _videoPlayerController.setVolume(0)
-        : await _videoPlayerController.setVolume(50);
+    _isMute ? _videoPlayerController.setVolume(0) : _videoPlayerController.setVolume(50);
 
     setState(() {});
   }
@@ -337,10 +350,12 @@ class _VideoPostState extends State<VideoPost>
             // ),
             child: GestureDetector(
               onTap: () {
-                context.read<CommonConfig>().toggleIsMuted();
+                _onMute();
               },
               child: FaIcon(
-                context.watch<CommonConfig>().isMute ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
+                _isMute
+                    ? FontAwesomeIcons.volumeXmark
+                    : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
                 size: Sizes.size24,
               ),
