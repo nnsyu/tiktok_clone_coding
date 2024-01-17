@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
@@ -8,28 +9,12 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
+  // bool _notifications = false;
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notifications = false;
-
-  void _notificationChanged(bool? newValue) {
-    if (newValue == null) return;
-    setState(() {
-      _notifications = newValue;
-      if (kDebugMode) {
-        print(_notifications);
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Localizations.override(
       context: context,
       locale: const Locale("ko"),
@@ -57,8 +42,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //   activeColor: Theme.of(context).primaryColor,
                 // ),
                 SwitchListTile.adaptive(
-                  value: context.watch<PlaybackConfigViewModel>().autoplay,
-                  onChanged: (value) => context.read<PlaybackConfigViewModel>().setAutoplay(value),
+                  value: ref.watch(playbackConfigProvider).autoplay,
+                  onChanged: (value) =>
+                      ref.read(playbackConfigProvider.notifier).setAutoplay(value),
                   title: Text(
                     "Auto Play",
                   ),
@@ -68,8 +54,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   activeColor: Theme.of(context).primaryColor,
                 ),
                 SwitchListTile.adaptive(
-                  value: context.watch<PlaybackConfigViewModel>().muted,
-                  onChanged: (value) => context.read<PlaybackConfigViewModel>().setMuted(value),
+                  value: ref.watch(playbackConfigProvider).muted,
+                  onChanged: (value) =>
+                      ref.read(playbackConfigProvider.notifier).setMuted(value),
                   title: Text(
                     "Auto Mute",
                   ),
@@ -79,8 +66,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   activeColor: Theme.of(context).primaryColor,
                 ),
                 SwitchListTile.adaptive(
-                  value: _notifications,
-                  onChanged: _notificationChanged,
+                  value: false,
+                  onChanged: (value) {},
                   title: Text(
                     "Enable notifications",
                   ),
@@ -90,8 +77,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   activeColor: Theme.of(context).primaryColor,
                 ),
                 CheckboxListTile.adaptive(
-                  value: _notifications,
-                  onChanged: _notificationChanged,
+                  value: false,
+                  onChanged: (value) {},
                   title: Text(
                     "Enable notifications",
                   ),
@@ -99,7 +86,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 ListTile(
                   onTap: () async {
-                    if(!mounted) return;
                     final date = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
@@ -109,8 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     if (kDebugMode) {
                       print(date);
                     }
-      
-                    if(!mounted) return;
+
                     final time = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
@@ -118,8 +103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     if (kDebugMode) {
                       print(time);
                     }
-      
-                    if(!mounted) return;
+
                     final booking = await showDateRangePicker(
                       context: context,
                       firstDate: DateTime(1980),
@@ -230,7 +214,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 AboutListTile(
                   applicationVersion: "1.0",
-                  applicationLegalese: "All rights reserved. Please don't copy me.",
+                  applicationLegalese:
+                      "All rights reserved. Please don't copy me.",
                 ),
               ],
             ),
