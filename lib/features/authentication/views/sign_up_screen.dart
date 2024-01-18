@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiktok_clone/features/authentication/email_screen.dart';
-import 'package:tiktok_clone/features/authentication/username_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/view_models/social_auth_view_model.dart';
+import 'package:tiktok_clone/features/authentication/views/email_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/login_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/username_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/widgets/auth_button.dart';
+import 'package:tiktok_clone/generated/l10n.dart';
+import 'package:tiktok_clone/utils.dart';
 
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
-import '../../generated/l10n.dart';
-import '../../utils.dart';
-import 'login_screen.dart';
-
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends ConsumerWidget {
   static String routeURL = "/";
   static String routeName = "signUp";
 
@@ -32,10 +33,12 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  void _onAppleTap(BuildContext context) {}
+  void _onGithubTap(BuildContext context, WidgetRef ref) {
+    ref.read(socialAuthProvider.notifier).githubSignIn(context);
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     print(Localizations.localeOf(context));
 
     final orientation = MediaQuery.of(context).orientation;
@@ -84,9 +87,9 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 Gaps.v16,
                 AuthButton(
-                  onTap: () => _onAppleTap(context),
+                  onTap: () => _onGithubTap(context, ref),
                   icon: const FaIcon(FontAwesomeIcons.apple),
-                  text: S.of(context).appleButton,
+                  text: S.of(context).githubButton,
                 ),
               ],
               if (orientation == Orientation.landscape)
@@ -102,9 +105,9 @@ class SignUpScreen extends StatelessWidget {
                     Gaps.h16,
                     Expanded(
                       child: AuthButton(
-                        onTap: () => _onAppleTap(context),
-                        icon: const FaIcon(FontAwesomeIcons.apple),
-                        text: S.of(context).appleButton,
+                        onTap: () => _onGithubTap(context, ref),
+                        icon: const FaIcon(FontAwesomeIcons.github),
+                        text: S.of(context).githubButton,
                       ),
                     ),
                   ],

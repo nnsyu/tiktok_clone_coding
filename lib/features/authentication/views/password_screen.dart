@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/birthday_screen.dart';
-import 'package:tiktok_clone/features/authentication/password_screen.dart';
 import 'package:tiktok_clone/features/authentication/view_models/signup_view_model.dart';
+import 'package:tiktok_clone/features/authentication/views/birthday_screen.dart';
 
 import 'widgets/form_button.dart';
 

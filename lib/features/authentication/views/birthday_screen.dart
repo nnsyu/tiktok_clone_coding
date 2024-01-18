@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/email_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/email_screen.dart';
 import 'package:tiktok_clone/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/utils.dart';
 
-import '../../utils.dart';
 import 'widgets/form_button.dart';
 
 class BirthdayScreen extends ConsumerStatefulWidget {
@@ -39,9 +39,7 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    print(ref.read(signUpForm));
-    ref.read(signUpProvier.notifier).signUp();
-    //context.goNamed(InterestsScreen.routeName);
+    ref.read(signUpProvier.notifier).signUp(context);
   }
 
   void _setTextFieldDate(DateTime date) {
