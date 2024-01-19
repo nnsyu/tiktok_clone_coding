@@ -24,12 +24,20 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   DateTime initialDate = DateTime.now();
   late DateTime _maximumDate;
 
+  String _birthday = "";
+
   @override
   void initState() {
     super.initState();
     _maximumDate =
         DateTime(initialDate.year - 12, initialDate.month, initialDate.day);
     _setTextFieldDate(_maximumDate);
+
+    _birthdayController.addListener(() {
+      setState(() {
+        _birthday = _birthdayController.value.text;
+      });
+    });
   }
 
   @override
@@ -39,6 +47,12 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void _onNextTap() {
+    final state = ref.read(signUpForm);
+    ref.read(signUpForm.notifier).state = {
+      ...state,
+      "birthday": _birthday,
+    };
+
     ref.read(signUpProvier.notifier).signUp(context);
   }
 

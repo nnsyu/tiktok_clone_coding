@@ -6,20 +6,8 @@ import 'package:tiktok_clone/features/authentication/view_models/signup_view_mod
 import 'package:tiktok_clone/features/authentication/views/password_screen.dart';
 import 'package:tiktok_clone/features/authentication/views/widgets/form_button.dart';
 
-
-class EmailScreenArgs {
-  final String username;
-
-  EmailScreenArgs({required this.username});
-}
-
 class EmailScreen extends ConsumerStatefulWidget {
-  final String username;
-
-  const EmailScreen({
-    super.key,
-    required this.username,
-  });
+  const EmailScreen({super.key});
 
   @override
   ConsumerState<EmailScreen> createState() => _EamilScreenState();
@@ -66,7 +54,12 @@ class _EamilScreenState extends ConsumerState<EmailScreen> {
       return;
     }
 
-    ref.read(signUpForm.notifier).state = {"email" : _email};
+    final state = ref.read(signUpForm.notifier).state;
+
+    ref.read(signUpForm.notifier).state = {
+      ...state,
+      "email": _email,
+    };
 
     Navigator.push(
       context,
@@ -95,7 +88,7 @@ class _EamilScreenState extends ConsumerState<EmailScreen> {
             children: [
               Gaps.v40,
               Text(
-                "What is your email? ${widget.username} ?",
+                "What is your email?",
                 style: TextStyle(
                   fontSize: Sizes.size20,
                   fontWeight: FontWeight.w700,
