@@ -55,12 +55,12 @@ final routerProvider = Provider((ref) {
       GoRoute(
         name: ActivityScreen.routeName,
         path: ActivityScreen.routeURL,
-        builder: (context, state) => ActivityScreen(),
+        builder: (context, state) => const ActivityScreen(),
       ),
       GoRoute(
         name: ChatsScreen.routeName,
         path: ChatsScreen.routeURL,
-        builder: (context, state) => ChatsScreen(),
+        builder: (context, state) => const ChatsScreen(),
         routes: [
           GoRoute(
             name: ChatDetailScreen.routeName,
@@ -78,13 +78,13 @@ final routerProvider = Provider((ref) {
         name: VideoRecordingScreen.routeName,
         path: VideoRecordingScreen.routeURL,
         pageBuilder: (context, state) => CustomTransitionPage(
-          transitionDuration: Duration(
+          transitionDuration: const Duration(
             milliseconds: 200,
           ),
-          child: VideoRecordingScreen(),
+          child: const VideoRecordingScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             final position = Tween(
-              begin: Offset(0, 1),
+              begin: const Offset(0, 1),
               end: Offset.zero,
             ).animate(animation);
             return SlideTransition(
