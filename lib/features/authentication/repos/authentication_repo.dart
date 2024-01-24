@@ -21,13 +21,13 @@ class AuthenticationRepository {
     await _firebaseAuth.signOut();
   }
 
-  Future<void> signIn(String email, String password) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
+  Future<UserCredential> signIn(String email, String password) async {
+    return _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
   }
 
-  Future<void> githubSignIn() async {
-    await _firebaseAuth.signInWithProvider(GithubAuthProvider());
+  Future<UserCredential> githubSignIn() async {
+   return _firebaseAuth.signInWithProvider(GithubAuthProvider());
   }
 }
 

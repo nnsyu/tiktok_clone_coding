@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
+import 'package:tiktok_clone/features/users/user_info_edit_screen.dart';
 import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
-import 'package:tiktok_clone/features/users/widgets/persistent_tabbar.dart';
+import 'package:tiktok_clone/features/users/views/widgets/avatar.dart';
+import 'package:tiktok_clone/features/users/views/widgets/persistent_tabbar.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   final String username;
@@ -30,6 +33,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
         builder: (context) => SettingsScreen(),
       ),
     );
+  }
+
+  void _onPencilPressed() {
+    context.pushNamed(UserInfoEditScreen.routeName);
   }
 
   @override
@@ -59,6 +66,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                           title: Text(data.name),
                           actions: [
                             IconButton(
+                              onPressed: _onPencilPressed,
+                              icon: FaIcon(
+                                FontAwesomeIcons.pencil,
+                                size: Sizes.size20,
+                              ),
+                            ),
+                            IconButton(
                               onPressed: _onGearPressed,
                               icon: FaIcon(
                                 FontAwesomeIcons.gear,
@@ -81,13 +95,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                       Column(
                                         children: [
                                           Gaps.v20,
-                                          CircleAvatar(
-                                            radius: 50,
-                                            backgroundColor: Colors.white,
-                                            foregroundImage: NetworkImage(
-                                              'https://avatars.githubusercontent.com/u/34337539?v=4',
-                                            ),
-                                            child: Text(data.name),
+                                          Avatar(
+                                            name: data.name,
+                                            hasAvatar: data.hasAvatar,
+                                            uid: data.uid,
                                           ),
                                           Gaps.v16,
                                           Row(
@@ -277,13 +288,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                 return Column(
                                   children: [
                                     Gaps.v20,
-                                    CircleAvatar(
-                                      radius: 50,
-                                      backgroundColor: Colors.white,
-                                      foregroundImage: NetworkImage(
-                                        'https://avatars.githubusercontent.com/u/34337539?v=4',
-                                      ),
-                                      child: Text(data.name),
+                                    Avatar(
+                                      name: data.name,
+                                      hasAvatar: data.hasAvatar,
+                                      uid: data.uid,
                                     ),
                                     Gaps.v16,
                                     Row(
@@ -417,7 +425,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                         horizontal: Sizes.size32,
                                       ),
                                       child: Text(
-                                        "All highlights and where to watch live matches on FIFA+ I wonder how to it would look",
+                                        data.bio,
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -432,7 +440,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                         ),
                                         Gaps.h4,
                                         Text(
-                                          "https://nomadcoders.co",
+                                          data.link,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                           ),

@@ -15,9 +15,10 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
   FutureOr<UserProfileModel> build() async {
     _usersRepository = ref.read(userRepo);
     _authRepository = ref.read(authRepo);
-    if(_authRepository.isLoggedIn) {
-      final profile = await _usersRepository.findProfile(_authRepository.user!.uid);
-      if(profile != null) {
+    if (_authRepository.isLoggedIn) {
+      final profile =
+          await _usersRepository.findProfile(_authRepository.user!.uid);
+      if (profile != null) {
         return UserProfileModel.fromJson(profile);
       }
     }
@@ -26,7 +27,9 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
   }
 
   Future<void> createProfile(UserCredential credential) async {
-    if(credential.user == null) {
+    print("@@@@@@@@@@@uid : ${credential.user!.uid}");
+
+    if (credential.user == null) {
       throw Exception("Account not created");
     }
 
@@ -40,12 +43,37 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       name: credential.user!.displayName ?? "Anon",
       bio: "undefined",
       link: "undefined",
-      nick: form["nick"],
-      birthday: form["birthday"],
+      nick: form["nick"] ?? "Anon",
+      birthday: form["birthday"] ?? "0000",
+      hasAvatar: false,
     );
 
     await _usersRepository.createProfile(profile);
     state = AsyncValue.data(profile);
+  }
+
+  Future<void> onAvatarUpload() async {
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        hasAvatar: true,
+      ),
+    );
+    await _usersRepository.updateUser(state.value!.uid, {
+      "hasAvatar": true,
+    });
+  }
+
+  Future<void> onEditInfo(String bio, String link) async {
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        bio: bio,
+        link: link,
+      ),
+    );
+    await _usersRepository.updateUser(state.value!.uid, {
+      "bio": bio,
+      "link": link,
+    });
   }
 }
 
