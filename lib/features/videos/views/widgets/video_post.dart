@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
@@ -17,11 +18,13 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
+  final VideoModel videoData;
   final int index;
 
   const VideoPost({
     super.key,
     required this.onVideoFinished,
+    required this.videoData,
     required this.index,
   });
 
@@ -61,7 +64,7 @@ class VideoPostState extends ConsumerState<VideoPost>
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
 
-    if(!mounted) return;
+    if (!mounted) return;
 
     if (kIsWeb || ref.read(playbackConfigProvider).muted) {
       _onMute();
@@ -95,9 +98,9 @@ class VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _onPlaybackConfigChanged() {
-    if(!mounted) return;
+    if (!mounted) return;
 
-    if(ref.read(playbackConfigProvider).muted) {
+    if (ref.read(playbackConfigProvider).muted) {
       _videoPlayerController.setVolume(0);
     } else {
       _videoPlayerController.setVolume(50);
@@ -113,7 +116,7 @@ class VideoPostState extends ConsumerState<VideoPost>
       _videoPlayerController.play();
 
       final autoplay = ref.read(playbackConfigProvider).autoplay;
-      if(!autoplay) _onTogglePause();
+      if (!autoplay) _onTogglePause();
     }
 
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
@@ -166,7 +169,9 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   void _onMute() {
     _isMute = !_isMute;
-    _isMute ? _videoPlayerController.setVolume(0) : _videoPlayerController.setVolume(50);
+    _isMute
+        ? _videoPlayerController.setVolume(0)
+        : _videoPlayerController.setVolume(50);
 
     setState(() {});
   }
@@ -190,8 +195,9 @@ class VideoPostState extends ConsumerState<VideoPost>
                       ),
                     ),
                   )
-                : Container(
-                    color: Colors.black,
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
                   ),
           ),
           Positioned.fill(
@@ -231,7 +237,7 @@ class VideoPostState extends ConsumerState<VideoPost>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '@ewoo',
+                  '@${widget.videoData.creator}',
                   style: TextStyle(
                     fontSize: Sizes.size16 + Sizes.size2,
                     color: Colors.white,
@@ -240,7 +246,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                 ),
                 Gaps.v16,
                 Text(
-                  'This is my pet name is oong !!',
+                  widget.videoData.description,
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
@@ -308,20 +314,19 @@ class VideoPostState extends ConsumerState<VideoPost>
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/34337539?v=4'),
-                  child: Text('에우'),
+                      'https://firebasestorage.googleapis.com/v0/b/tiktok-clone-ewoo.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media'),
                 ),
                 Gaps.v24,
                 VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
-                  text: S.of(context).likeCount(987987967678687),
+                  text: S.of(context).likeCount(widget.videoData.likes),
                 ),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: S.of(context).commentCount(6565656565),
+                    text: S.of(context).commentCount(widget.videoData.comments),
                   ),
                 ),
                 Gaps.v24,
