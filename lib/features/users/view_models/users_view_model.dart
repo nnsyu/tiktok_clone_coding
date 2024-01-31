@@ -27,8 +27,6 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
   }
 
   Future<void> createProfile(UserCredential credential) async {
-    print("@@@@@@@@@@@uid : ${credential.user!.uid}");
-
     if (credential.user == null) {
       throw Exception("Account not created");
     }

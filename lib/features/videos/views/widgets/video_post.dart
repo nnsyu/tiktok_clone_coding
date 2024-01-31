@@ -3,9 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:marquee/marquee.dart';
-import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/app_configuration/common_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/models/video_model.dart';
@@ -42,6 +39,8 @@ class VideoPostState extends ConsumerState<VideoPost>
   bool _isPaused = false;
   bool _isSeeMore = false;
   bool _isMute = false;
+  bool _isLike = false;
+  int _likeCount = 0;
 
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
@@ -177,12 +176,21 @@ class VideoPostState extends ConsumerState<VideoPost>
     setState(() {});
   }
 
-  void _onLikeTap() {
-    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+  void _onLikeTap() async {
+
+    await ref.read(videoPostProvider(widget.videoData).notifier).likeVideo();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    _isLike = ref.read(videoPostProvider(widget.videoData).notifier).like;
+    _likeCount = ref.read(videoPostProvider(widget.videoData).notifier).likeCount;
+
+    print("###### _isLike : $_isLike");
+    print("###### _likeCount : $_likeCount");
+
+
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -323,10 +331,11 @@ class VideoPostState extends ConsumerState<VideoPost>
                 ),
                 Gaps.v24,
                 GestureDetector(
-                  onTap: _onLikeTap,
+                  onTap: () => _onLikeTap(),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidHeart,
-                    text: S.of(context).likeCount(widget.videoData.likes),
+                    iconColor: _isLike ? Colors.redAccent : Colors.white,
+                    text: "$_likeCount",
                   ),
                 ),
                 Gaps.v24,
@@ -334,12 +343,14 @@ class VideoPostState extends ConsumerState<VideoPost>
                   onTap: () => _onCommentsTap(context),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
+                    iconColor: Colors.white,
                     text: S.of(context).commentCount(widget.videoData.comments),
                   ),
                 ),
                 Gaps.v24,
                 VideoButton(
                   icon: FontAwesomeIcons.share,
+                  iconColor: Colors.white,
                   text: 'Share',
                 ),
               ],

@@ -39,3 +39,30 @@ export const onVideoCreated = functions.region('asia-northeast3').firestore
                 videoId: snapshot.id,
             });
     });
+
+
+export const onLikedCreated = functions.firestore
+    .document("likes/{likeId}")
+    .onCreate(async (snapshot, context) => {
+        const db = admin.firestore();
+        const [videoId, _] = snapshot.id.split("000");
+        await db
+            .collection("videos")
+            .doc(videoId)
+            .update({
+                likes: admin.firestore.FieldValue.increment(1),
+            });
+    });
+
+export const onLikedRemoved = functions.firestore
+    .document("likes/{likeId}")
+    .onDelete(async (snapshot, context) => {
+        const db = admin.firestore();
+        const [videoId, _] = snapshot.id.split("000");
+        await db
+            .collection("videos")
+            .doc(videoId)
+            .update({
+                likes: admin.firestore.FieldValue.increment(-1),
+            });
+    });
