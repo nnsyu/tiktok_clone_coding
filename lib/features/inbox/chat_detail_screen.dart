@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart';
 
-class ChatDetailScreen extends StatefulWidget {
+class ChatDetailScreen extends ConsumerStatefulWidget {
   static const String routeName = "chatDetail";
   static const String routeURL = ":chatId"; // 자식 경로는 /로 시작할 수 없음
 
@@ -15,12 +17,29 @@ class ChatDetailScreen extends StatefulWidget {
   });
 
   @override
-  State<ChatDetailScreen> createState() => _ChatDetailScreenState();
+  ConsumerState<ChatDetailScreen> createState() => _ChatDetailScreenState();
 }
 
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
+class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
+  final TextEditingController _editingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _editingController.dispose();
+    super.dispose();
+  }
+
+  void _onSendPress() {
+    final text = _editingController.text;
+    if (text == "") return;
+
+    ref.read(messagesProvider.notifier).sendMessage(text);
+    _editingController.text = "";
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(messagesProvider).isLoading;
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -235,6 +254,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _editingController,
                       expands: true,
                       minLines: null,
                       maxLines: null,
@@ -267,18 +287,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                   ),
                   Gaps.h20,
-                  Container(
-                    padding: EdgeInsets.all(
-                      Sizes.size10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      shape: BoxShape.circle,
-                    ),
-                    child: FaIcon(
-                      FontAwesomeIcons.solidPaperPlane,
-                      color: Colors.white,
-                      size: Sizes.size16,
+                  GestureDetector(
+                    onTap: isLoading ? null : _onSendPress,
+                    child: Container(
+                      padding: EdgeInsets.all(
+                        Sizes.size10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        shape: BoxShape.circle,
+                      ),
+                      child: FaIcon(
+                        isLoading
+                            ? FontAwesomeIcons.hourglass
+                            : FontAwesomeIcons.solidPaperPlane,
+                        color: Colors.white,
+                        size: Sizes.size16,
+                      ),
                     ),
                   ),
                 ],
